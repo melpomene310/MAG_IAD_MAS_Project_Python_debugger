@@ -1,0 +1,13 @@
+# Библиотеки окружения AtCoder для интерпретатора песочницы (/usr/local/bin/python).
+# Дополняется по отчёту валидации (причины missing_library:<имя>).
+numpy
+scipy
+networkx
+sympy
+sortedcontainers
+more-itertools
+bitarray
+ac-library-python
+mpmath
+gmpy2
+pandas

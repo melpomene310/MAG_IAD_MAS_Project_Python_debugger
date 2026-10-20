@@ -1,0 +1,19 @@
+# Сравнение вариантов: конфиги отличаются только `solver` и параметрами решателя.
+solver: workflow
+data_dir: data/processed
+split_preset: paper3
+results_dir: results
+
+max_attempts: 3
+max_tokens_per_task: 300000
+task_timeout_s: 1800
+initial_failing_shown: 2
+show_expected_output: true
+
+memory_mb: 1024
+sandbox_workers: 8
+
+llm:
+  temperature: 0
+  max_output_tokens: 16384   # без лимита модель может «думать» 100k+ токенов и ~10 минут
+  reasoning: {enabled: false}  # без рассуждений: быстрее и дешевле

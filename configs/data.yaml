@@ -1,0 +1,11 @@
+# Источник данных ConDefects (docs/spec.md, раздел 4)
+repo_url: https://github.com/appmlk/ConDefects
+commit: 43f0834a82c5e3bc4516c079fe7765f63b1a15cd
+raw_dir: data/raw/ConDefects
+test_zip: data/raw/Test.zip       # скачивается вручную по ссылкам из README ConDefects
+test_dir: data/raw/Test           # альтернатива: распакованный архив
+processed_dir: data/processed
+seed: 42
+validation_time_limit_s: 10       # лимит на тест для исправленной версии при валидации
+memory_mb: 1024
+workers: 16                       # параллельные тесты

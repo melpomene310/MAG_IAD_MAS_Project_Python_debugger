@@ -1,0 +1,12 @@
+seed: 42
+presets:
+  paper3:                    # как в статье ConDefects
+    bins: {easy: [0, 400], medium: [400, 1300], hard: [1300, null]}
+  fine5:
+    bins: {b1: [0, 200], b2: [200, 600], b3: [600, 1200], b4: [1200, 2000], b5: [2000, null]}
+  hard_only:
+    bins: {medium: [400, 1300], hard: [1300, null]}
+sizes:                       # число задач в каждом бине
+  val: 15
+  test: 50
+  dev: rest                  # всё остальное

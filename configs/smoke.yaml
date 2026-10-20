@@ -1,0 +1,20 @@
+# `make smoke SOLVER=...`: фикстуры + фейковая LLM, без сети.
+solver: workflow
+data_dir: data/smoke/processed
+split_preset: paper3
+results_dir: results/smoke
+
+max_attempts: 3
+max_steps: 30
+max_tokens_per_task: 300000
+task_timeout_s: 300
+initial_failing_shown: 2
+tools: [run_tests, get_test, run_program, trace, submit]
+
+sandbox_workers: 4
+concurrency: 2
+
+llm:
+  fake: true
+  fake_script: tests/fixtures/condefects_mini/fake_llm.yaml
+  cache_enabled: false

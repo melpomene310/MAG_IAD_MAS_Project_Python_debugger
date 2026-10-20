@@ -1,0 +1,40 @@
+[project]
+name = "debugmas"
+version = "0.1.0"
+description = "Multi-agent Python debugger on ConDefects"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "openai>=1.40",
+    "pydantic>=2.6",
+    "pydantic-settings>=2.2",
+    "pyyaml>=6.0",
+    "plotly>=5.24,<6",  # plotly 6 требует kaleido>=1 (нужен Chrome)
+    "kaleido==0.2.1",  # статичный экспорт plotly в PNG, без браузера
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.5",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/debugmas"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+extend-exclude = ["tests/fixtures", "data", "results"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["live: requires a real LLM endpoint (run with -m live)"]
+addopts = "-m 'not live' -p no:cacheprovider"
+filterwarnings = ["ignore:setDaemon:DeprecationWarning:kaleido"]

@@ -1,0 +1,241 @@
+# Сценарии фейковой LLM для `make smoke` и тестов: {solver: {task_id: [ответы]}}
+workflow:
+  fx001_a:
+  - content: |
+      Цикл не включает n.
+
+      ```python
+      n = int(input())
+      if n == 0:
+          print(0)
+          exit()
+      total = 0
+      for i in range(1, n + 1):
+          total += i
+      print(total)
+      ```
+  fx001_b:
+  - content: 'Похоже, n не уменьшается в цикле. Исправлю: n //= 10.'
+  - content: |-
+      ```python
+      n = int(input(
+      count = 0
+      ```
+  - content: |
+      Причина ошибки найдена.
+
+      ```python
+      n = int(input())
+      count = 0
+      while n > 0:
+          count += 1
+          n //= 10
+      print(count)
+      ```
+  fx001_c:
+  - content: |
+      Выход за границу списка.
+
+      ```python
+      n = int(input())
+      a = list(map(int, input().split()))
+      best = a[0]
+      for i in range(1, n):
+          best = max(best, a[i])
+      print(best)
+      ```
+  fx002_a:
+  - content: |
+      Код выглядит верным.
+
+      ```python
+      n = int(input())
+      a = list(map(int, input().split()))
+      s = sum(a)
+      print(s // n)
+      ```
+  - content: |
+      Нужно вещественное деление.
+
+      ```python
+      n = int(input())
+      a = list(map(int, input().split()))
+      s = sum(a)
+      print(s / n)
+      ```
+  fx002_b:
+  - content: |
+      База рекурсии неверна.
+
+      ```python
+      import sys
+      import threading
+
+
+      def main():
+          n = int(input())
+          memo = {}
+
+          def fib(k):
+              if k <= 1:
+                  return k
+              if k in memo:
+                  return memo[k]
+              memo[k] = fib(k - 1) + fib(k - 2)
+              return memo[k]
+
+          print(fib(n))
+
+
+      sys.setrecursionlimit(10**6)
+      threading.stack_size(1 << 26)
+      threading.Thread(target=main).start()
+      ```
+single_agent:
+  fx001_a:
+  - tool_calls:
+    - name: run_tests
+      arguments:
+        code: |
+          n = int(input())
+          if n == 0:
+              print(0)
+              exit()
+          total = 0
+          for i in range(1, n + 1):
+              total += i
+          print(total)
+  - tool_calls:
+    - name: submit
+      arguments:
+        code: |
+          n = int(input())
+          if n == 0:
+              print(0)
+              exit()
+          total = 0
+          for i in range(1, n + 1):
+              total += i
+          print(total)
+  fx001_b:
+  - content: Думаю, что проблема в цикле.
+  - tool_calls:
+    - name: trace
+      arguments:
+        test: '01'
+        lines:
+        - 4
+        expressions:
+        - n
+        - count
+        max_hits: 3
+  - tool_calls:
+    - name: trace
+      arguments:
+        test: '01'
+        expressions:
+        - n
+  - tool_calls:
+    - name: run_program
+      arguments: '{not json'
+  - tool_calls:
+    - name: submit
+      arguments:
+        code: |
+          n = int(input())
+          count = 0
+          while n > 0:
+              count += 1
+              n //= 100
+          print(count)
+  - tool_calls:
+    - name: submit
+      arguments:
+        code: |
+          n = int(input())
+          count = 0
+          while n > 0:
+              count += 1
+              n //= 10
+          print(count)
+  fx001_c:
+  - tool_calls:
+    - name: get_test
+      arguments:
+        name: '01'
+    - name: run_program
+      arguments:
+        input: |
+          2
+          3 4
+  - tool_calls:
+    - name: submit
+      arguments:
+        code: |
+          n = int(input())
+          a = list(map(int, input().split()))
+          best = a[0]
+          for i in range(1, n):
+              best = max(best, a[i])
+          print(best)
+  fx002_a:
+  - tool_calls:
+    - name: submit
+      arguments:
+        code: |
+          n = int(input())
+          a = list(map(int, input().split()))
+          s = sum(a)
+          print(s // n)
+  - tool_calls:
+    - name: submit
+      arguments:
+        code: |
+          n = int(input())
+          a = list(map(int, input().split()))
+          s = sum(a)
+          print(int(s / n))
+  - tool_calls:
+    - name: submit
+      arguments:
+        code: |
+          n = int(input())
+          a = list(map(int, input().split()))
+          s = sum(a)
+          print(s // n)
+  fx002_b:
+  - tool_calls:
+    - name: trace
+      arguments:
+        test: '02'
+        lines:
+        - 10
+        expressions:
+        - k
+        - memo
+  - tool_calls:
+    - name: submit
+      arguments:
+        code: |
+          import sys
+          import threading
+
+
+          def main():
+              n = int(input())
+              memo = {}
+
+              def fib(k):
+                  if k <= 1:
+                      return k
+                  if k in memo:
+                      return memo[k]
+                  memo[k] = fib(k - 1) + fib(k - 2)
+                  return memo[k]
+
+              print(fib(n))
+
+
+          sys.setrecursionlimit(10**6)
+          threading.stack_size(1 << 26)
+          threading.Thread(target=main).start()
