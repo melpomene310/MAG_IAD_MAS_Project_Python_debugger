@@ -17,9 +17,10 @@ JOBS=${JOBS:-4}
 
 # Список задач берётся из ConDefects: клонируем на коммите из configs/data.yaml, если клона нет
 if [ ! -d "$CODE" ]; then
-  url=$(awk '/^repo_url:/{print $2}' "$REPO/configs/data.yaml")
-  commit=$(awk '/^commit:/{print $2}' "$REPO/configs/data.yaml")
+  url=$(awk '/^repo_url:/{gsub(/\r/, "", $2); print $2}' "$REPO/configs/data.yaml")
+  commit=$(awk '/^commit:/{gsub(/\r/, "", $2); print $2}' "$REPO/configs/data.yaml")
   echo "Клонирую ConDefects ($commit)..."
+  mkdir -p "$REPO/data/raw"
   git clone -q "$url" "$REPO/data/raw/ConDefects" && git -C "$REPO/data/raw/ConDefects" checkout -q "$commit" || exit 1
 fi
 mkdir -p "$OUT" "$WORK"
