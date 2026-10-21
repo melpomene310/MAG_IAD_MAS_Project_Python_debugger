@@ -1,0 +1,21 @@
+{
+ "run_id": "20261021_mas_sequential_dev_9615146d",
+ "git": {
+  "commit": "977e8bd6275587058ce795015875388019f4381a",
+  "dirty": true
+ },
+ "model": "deepseek/deepseek-v4.1-flash",
+ "endpoint_host": "openrouter.ai",
+ "fake_llm": false,
+ "versions": {
+  "python": "3.11.17",
+  "debugmas": "0.1.0",
+  "openai": "3.35.1"
+ },
+ "started": "2026-10-21T21:38:36.073424+00:00",
+ "finished": "2026-10-21T21:39:48.166726+00:00",
+ "split": "dev",
+ "final": false,
+ "n_tasks": 6,
+ "resumed_at": []
+}
