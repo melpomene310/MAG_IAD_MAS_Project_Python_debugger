@@ -86,6 +86,7 @@ def validate_pilot_comparison(runs: Sequence[RunData]) -> None:
             r.cfg.get("llm_resolved", {}).get(key)
             for key in ("price_input_per_1m", "price_cached_input_per_1m", "price_output_per_1m")
         ],
+        "интерфейс модели": lambda r: r.cfg.get("model_interface_hash"),
         "границы сложности": lambda r: r.cfg.get("preset_bins"),
         "лимиты и стартовая информация": lambda r: [
             r.cfg.get(key)
@@ -217,6 +218,7 @@ def section_conditions(runs: Sequence[RunData], bins: list[str]) -> list[str]:
             r.cfg.get("initial_failing_shown"),
             r.cfg.get("show_expected_output"),
         ],
+        "интерфейс модели": lambda r: r.cfg.get("model_interface_hash"),
         "набор задач": lambda r: sorted(e.task_id for e in r.evals),
     }
     diffs = [name for name, f in checks.items() if len({json.dumps(f(r)) for r in runs}) > 1]

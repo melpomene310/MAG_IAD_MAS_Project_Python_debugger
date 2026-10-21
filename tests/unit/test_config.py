@@ -1,6 +1,7 @@
 from debugmas.config import (
     ExperimentConfig,
     Settings,
+    model_interface_hash,
     parse_overrides,
     resolve_llm,
     resolved_config_dict,
@@ -16,6 +17,16 @@ def test_run_hash_depends_on_model_not_prices():
     assert cfg.short_hash(a) != cfg.short_hash(b)
     assert cfg.short_hash(a) != cfg.short_hash(d)
     assert cfg.short_hash(a) == cfg.short_hash(c)
+
+
+def test_run_hash_and_resolved_config_include_model_interface(monkeypatch):
+    cfg = ExperimentConfig()
+    llm = resolve_llm(cfg, Settings())
+    before = cfg.short_hash(llm)
+    monkeypatch.setattr("debugmas.config.model_interface_hash", lambda: "changed")
+    assert cfg.short_hash(llm) != before
+    monkeypatch.undo()
+    assert resolved_config_dict(cfg, Settings())["model_interface_hash"] == model_interface_hash()
 
 
 def test_overrides_parsed_as_yaml():

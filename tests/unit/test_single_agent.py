@@ -54,16 +54,16 @@ def test_bad_tool_args_returned_to_model(make_ctx, load_view):
     errors = [r["error"] for r in tool_results(llm, 5) if "error" in r]
     assert len(errors) == 5
     assert "lines" in errors[0] and "JSON" in errors[1] and "nope" in errors[2]
-    assert "неизвестный инструмент" in errors[3] and "ровно одно" in errors[4]
+    assert "unknown tool" in errors[3] and "exactly one" in errors[4]
 
 
 def test_text_answer_gets_reminder(make_ctx, load_view):
-    script = [{"content": "думаю..."}, call("submit", code=fixed_code("fx001_c"))]
+    script = [{"content": "thinking..."}, call("submit", code=fixed_code("fx001_c"))]
     ctx, llm, sink = make_ctx(script, solver="single_agent")
     res = SingleAgentSolver(ctx.config).solve(load_view("fx001_c"), ctx)
     assert res.status == "solved" and res.steps == 2
     last = llm.calls[1]["messages"][-1]
-    assert last["role"] == "user" and "без вызова инструмента" in last["content"]
+    assert last["role"] == "user" and "without a tool call" in last["content"]
     assert any(e["event"] == "reminder" for e in sink.events)
 
 
@@ -103,7 +103,7 @@ def test_context_compaction(make_ctx, load_view):
     SingleAgentSolver(ctx.config).solve(load_view("fx001_c"), ctx)
     # перед 8-м вызовом прошло 7 шагов: результат шага 1 сокращён, шага 2 — ещё нет
     tools7 = [m["content"] for m in llm.calls[7]["messages"] if m["role"] == "tool"]
-    assert tools7[0].startswith("[результат run_tests:") and "сокращено" in tools7[0]
+    assert tools7[0].startswith("[run_tests result:") and "truncated" in tools7[0]
     assert "RE" in tools7[0]
     assert tools7[1].startswith("{")
     tools6 = [m["content"] for m in llm.calls[6]["messages"] if m["role"] == "tool"]

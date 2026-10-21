@@ -54,6 +54,33 @@ RUN_LLM_KEYS = (
     "fake",
 )
 
+MODEL_INTERFACE_PATHS = (
+    "src/debugmas/feedback.py",
+    "src/debugmas/sandbox/tracer.py",
+    "src/debugmas/solvers/common.py",
+    "src/debugmas/solvers/single_agent.py",
+    "src/debugmas/solvers/workflow.py",
+    "src/debugmas/solvers/mas/sequential.py",
+    "src/debugmas/tools/get_test.py",
+    "src/debugmas/tools/registry.py",
+    "src/debugmas/tools/run_program.py",
+    "src/debugmas/tools/run_tests.py",
+    "src/debugmas/tools/submit.py",
+    "src/debugmas/tools/trace.py",
+)
+
+
+def model_interface_hash() -> str:
+    """Fingerprint all committed files that can change messages sent to the LLM."""
+    paths = [*sorted(PROMPTS_DIR.glob("*.md")), *(REPO_ROOT / p for p in MODEL_INTERFACE_PATHS)]
+    digest = hashlib.sha256()
+    for path in paths:
+        digest.update(str(path.relative_to(REPO_ROOT)).encode())
+        digest.update(b"\0")
+        digest.update(path.read_bytes())
+        digest.update(b"\0")
+    return digest.hexdigest()[:12]
+
 
 class LLMConfig(BaseModel):
     model: str | None = None  # None — из выбранного файла окружения
@@ -103,7 +130,10 @@ class ExperimentConfig(BaseModel):
     def short_hash(self, llm: dict[str, Any] | None = None) -> str:
         """Хэш для id запуска. `llm` — итоговые параметры модели (`resolve_llm`):
         без них смена MODEL в профиле продолжила бы старый запуск с другой моделью."""
-        payload: dict[str, Any] = {"config": self.model_dump()}
+        payload: dict[str, Any] = {
+            "config": self.model_dump(),
+            "model_interface_hash": model_interface_hash(),
+        }
         if llm is not None:
             payload["llm"] = {k: llm.get(k) for k in RUN_LLM_KEYS}
         blob = json.dumps(payload, sort_keys=True, ensure_ascii=False, default=str)
@@ -178,6 +208,7 @@ def resolved_config_dict(cfg: ExperimentConfig, settings: Settings) -> dict[str,
     """Итоговый конфиг запуска без секретов (для `config.resolved.yaml`)."""
     d = cfg.model_dump()
     d["llm_resolved"] = resolve_llm(cfg, settings)
+    d["model_interface_hash"] = model_interface_hash()
     d["sandbox_python"] = settings.sandbox_python
     return d
 

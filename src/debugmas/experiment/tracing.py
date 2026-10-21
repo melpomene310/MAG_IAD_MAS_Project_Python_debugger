@@ -21,7 +21,7 @@ class EventSink:
         line = json.dumps(event, ensure_ascii=False, default=str)
         with self._lock:
             if self.path is None:
-                self.events.append(event)
+                self.events.append(json.loads(line))
             else:
                 with open(self.path, "a", encoding="utf-8") as f:
                     f.write(line + "\n")

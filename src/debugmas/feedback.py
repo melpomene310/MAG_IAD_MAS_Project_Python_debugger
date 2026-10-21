@@ -31,7 +31,7 @@ def verdict_counts(results: Sequence[TestResult] | dict[str, str]) -> dict[str, 
 
 def summary_line(results: Sequence[TestResult] | dict[str, str]) -> str:
     counts = verdict_counts(results)
-    return ", ".join(f"{n} {v}" for v, n in counts.items()) or "нет тестов"
+    return ", ".join(f"{n} {v}" for v, n in counts.items()) or "no tests"
 
 
 def select_failing(
@@ -72,17 +72,17 @@ def format_test_report(
     k: int,
     show_expected: bool = True,
 ) -> str:
-    lines = [f"Всего тестов: {len(results)}. Вердикты: {summary_line(results)}."]
+    lines = [f"Total tests: {len(results)}. Verdicts: {summary_line(results)}."]
     failed = [r.name for r in results if r.verdict != "AC"]
     if failed:
         shown = ", ".join(f"{r.name}={r.verdict}" for r in results if r.verdict != "AC")
-        lines.append(f"Не прошли: {truncate_text(shown, 1500)}")
+        lines.append(f"Failed: {truncate_text(shown, 1500)}")
     for d in failing_details(tests, results, k, show_expected):
-        lines.append(f"\n### Тест {d['name']} — {d['verdict']}")
-        lines.append(f"Вход:\n```\n{d['input']}\n```")
+        lines.append(f"\n### Test {d['name']} — {d['verdict']}")
+        lines.append(f"Input:\n```\n{d['input']}\n```")
         if "expected" in d:
-            lines.append(f"Ожидаемый вывод:\n```\n{d['expected']}\n```")
-        lines.append(f"Вывод программы:\n```\n{d['got']}\n```")
+            lines.append(f"Expected output:\n```\n{d['expected']}\n```")
+        lines.append(f"Program output:\n```\n{d['got']}\n```")
         if d["stderr"].strip():
             lines.append(f"stderr:\n```\n{d['stderr']}\n```")
     return "\n".join(lines)

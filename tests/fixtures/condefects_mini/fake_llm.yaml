@@ -1,7 +1,7 @@
-# Сценарии фейковой LLM для `make smoke` и тестов: {solver: {task_id: [ответы]}}
+# Fake LLM scripts for `make smoke` and tests: {solver: {task_id: [responses]}}
 mas_sequential:
   fx001_a:
-  - content: 'В строке 6 цикл не включает n; тест 04 показывает недостающий последний член.'
+  - content: 'On line 6, the loop excludes n; test 04 shows the missing final term.'
   - content: |
       ```python
       n = int(input())
@@ -17,7 +17,7 @@ mas_sequential:
   - tool_calls:
     - name: trace
       arguments: {test: '01', lines: [4], expressions: [n], max_hits: 3}
-  - content: 'n не уменьшается в цикле: строка 5 использует // вместо //=.'
+  - content: 'n is not updated in the loop: line 5 uses // instead of //=.'
   - content: |
       ```python
       n = int(input())
@@ -27,8 +27,8 @@ mas_sequential:
           n //= 100
       print(count)
       ```
-  - content: 'Проверка показывает WA: деление на 100 пропускает цифры.'
-  - content: 'Нужно делить n на 10, а не на 100.'
+  - content: 'Verification shows WA: dividing by 100 skips digits.'
+  - content: 'n must be divided by 10 rather than 100.'
   - content: |
       ```python
       n = int(input())
@@ -39,7 +39,7 @@ mas_sequential:
       print(count)
       ```
   fx001_c:
-  - content: 'Цикл до n включительно обращается к a[n] за пределами списка.'
+  - content: 'Iterating through n inclusive accesses a[n], which is outside the list.'
   - content: |
       ```python
       n = int(input())
@@ -50,7 +50,7 @@ mas_sequential:
       print(best)
       ```
   fx002_a:
-  - content: 'Целочисленное деление отбрасывает дробную часть среднего.'
+  - content: 'Integer division discards the fractional part of the average.'
   - content: |
       ```python
       n = int(input())
@@ -59,7 +59,7 @@ mas_sequential:
       print(s / n)
       ```
   fx002_b:
-  - content: 'В рекурсии fib база должна возвращать k, а не 1.'
+  - content: 'In fib recursion, the base case must return k rather than 1.'
   - content: |
       ```python
       import sys
@@ -88,7 +88,7 @@ mas_sequential:
 workflow:
   fx001_a:
   - content: |
-      Цикл не включает n.
+      The loop excludes n.
 
       ```python
       n = int(input())
@@ -101,14 +101,14 @@ workflow:
       print(total)
       ```
   fx001_b:
-  - content: 'Похоже, n не уменьшается в цикле. Исправлю: n //= 10.'
+  - content: 'n does not appear to decrease in the loop. I will change it to n //= 10.'
   - content: |-
       ```python
       n = int(input(
       count = 0
       ```
   - content: |
-      Причина ошибки найдена.
+      The cause of the bug was found.
 
       ```python
       n = int(input())
@@ -120,7 +120,7 @@ workflow:
       ```
   fx001_c:
   - content: |
-      Выход за границу списка.
+      List index out of bounds.
 
       ```python
       n = int(input())
@@ -132,7 +132,7 @@ workflow:
       ```
   fx002_a:
   - content: |
-      Код выглядит верным.
+      The code looks correct.
 
       ```python
       n = int(input())
@@ -141,7 +141,7 @@ workflow:
       print(s // n)
       ```
   - content: |
-      Нужно вещественное деление.
+      Floating-point division is needed.
 
       ```python
       n = int(input())
@@ -151,7 +151,7 @@ workflow:
       ```
   fx002_b:
   - content: |
-      База рекурсии неверна.
+      The recursion base case is wrong.
 
       ```python
       import sys
@@ -204,7 +204,7 @@ single_agent:
               total += i
           print(total)
   fx001_b:
-  - content: Думаю, что проблема в цикле.
+  - content: I think the loop is the problem.
   - tool_calls:
     - name: trace
       arguments:

@@ -1,11 +1,11 @@
-Программа ниже — решение олимпиадной задачи на Python 3.11. В ней есть логическая ошибка: на части тестов она выдаёт неверный результат. Условие задачи недоступно — спецификацией служат тесты. Ожидаемые ответы проверяются по токенам; для вещественных чисел допуск 1e-6.
+The program below is a Python 3.11 solution to a competitive-programming problem. It has a logical bug and gives an incorrect result on some tests. The problem statement is unavailable; the tests define the specification. Expected output is compared by tokens, with a 1e-6 tolerance for floating-point values.
 
-## Программа (номера строк слева, в код их не включать)
+## Program (line numbers are shown on the left; do not include them in code)
 
 ```
 {{code}}
 ```
 
-## Результаты исходной программы на тестах
+## Original program test results
 
 {{report}}

@@ -64,6 +64,10 @@ def test_pilot_requires_same_tasks_and_model_settings():
     runs[2].cfg["llm_resolved"]["price_output_per_1m"] = 1.0
     with pytest.raises(ValueError, match="тарифы"):
         validate_pilot_comparison(runs)
+    runs[2].cfg["llm_resolved"]["price_output_per_1m"] = None
+    runs[2].cfg["model_interface_hash"] = "other"
+    with pytest.raises(ValueError, match="интерфейс модели"):
+        validate_pilot_comparison(runs)
 
 
 def test_pilot_report_rejects_mismatch_before_creating_files(tmp_path: Path, monkeypatch):

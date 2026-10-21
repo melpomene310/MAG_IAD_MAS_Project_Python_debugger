@@ -54,7 +54,7 @@ class SequentialMASSolver:
             if steps >= ctx.limits.max_steps:
                 raise StepLimitReached
             if ctx.deadline_passed:
-                raise TimeoutError("превышен таймаут задачи")
+                raise TimeoutError("task timeout exceeded")
             session.agent = agent
             response = session.chat(messages, tools, step=steps + 1)
             steps += 1
@@ -78,7 +78,7 @@ class SequentialMASSolver:
                         except (json.JSONDecodeError, TypeError):
                             args = call.arguments
                         if isinstance(args, dict) and isinstance(args.get("code"), str):
-                            args = {**args, "code": f"<{len(args['code'].splitlines())} строк>"}
+                            args = {**args, "code": f"<{len(args['code'].splitlines())} lines>"}
                         ctx.tracer.emit(
                             "tool_call",
                             agent="researcher",
@@ -105,7 +105,7 @@ class SequentialMASSolver:
                 response = chat("fixer", fixer)
                 code = extract_code(response.content)
                 if ctx.deadline_passed:
-                    raise TimeoutError("превышен таймаут задачи")
+                    raise TimeoutError("task timeout exceeded")
                 if code is None:
                     results = []
                     feedback = load_prompt("feedback_no_code.md")
@@ -125,7 +125,7 @@ class SequentialMASSolver:
                         agent="checker",
                         step=steps,
                         tool="run_tests",
-                        args={"code": f"<{len(code.splitlines())} строк>"},
+                        args={"code": f"<{len(code.splitlines())} lines>"},
                         result={"summary": summary_line(results)},
                     )
                     note = None
@@ -164,7 +164,7 @@ class SequentialMASSolver:
                         "role": "user",
                         "content": render(
                             load_prompt("mas_check_request.md"),
-                            code=code or "(код не извлечён)",
+                            code=code or "(code was not extracted)",
                             feedback=feedback,
                         ),
                     },

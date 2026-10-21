@@ -1,4 +1,4 @@
-Вывод исследователя:
+Researcher's finding:
 {{finding}}
 
-Предложи полный исправленный код программы.
+Return the complete corrected program.

@@ -1,9 +1,9 @@
-Предыдущее исправление не прошло проверку.
+The previous fix did not pass verification.
 
-Отчёт тестов:
+Test report:
 {{feedback}}
 
-Вывод проверяющего:
+Verifier's finding:
 {{explanation}}
 
-Продолжи исследование и уточни причину ошибки.
+Continue the investigation and refine the cause of the bug.

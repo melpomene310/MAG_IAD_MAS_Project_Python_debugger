@@ -1,9 +1,9 @@
-Предложенный код:
+Proposed code:
 ```python
 {{code}}
 ```
 
-Результат полного прогона тестов:
+Full test-run result:
 {{feedback}}
 
-Кратко объясни причину неудачи для исследователя.
+Briefly explain the failure to the researcher.

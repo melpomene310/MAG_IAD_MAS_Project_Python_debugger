@@ -34,14 +34,14 @@ register(
     Tool(
         name="run_program",
         description=(
-            "Запустить программу на своём входе (stdin). Возвращает stdout, stderr, код возврата "
-            "и время. Без `code` запускается исходная программа."
+            "Run a program on custom stdin. Returns stdout, stderr, exit code, and elapsed time. "
+            "Without `code`, runs the original program."
         ),
         parameters={
             "type": "object",
             "properties": {
-                "code": {"type": "string", "description": "Полный текст программы"},
-                "input": {"type": "string", "description": "Данные для stdin"},
+                "code": {"type": "string", "description": "Complete program source"},
+                "input": {"type": "string", "description": "Data for stdin"},
             },
             "required": ["input"],
         },
