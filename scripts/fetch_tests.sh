@@ -13,7 +13,7 @@ CODE=$REPO/data/raw/ConDefects/Code
 OUT=$REPO/data/raw/Test
 WORK=$REPO/data/raw/.fetch_work
 MIRROR=https://github.com/conlacda/atcoder-testcases.git
-JOBS=${JOBS:-4}
+JOBS=${JOBS:-8}
 
 # Список задач берётся из ConDefects: клонируем на коммите из configs/data.yaml, если клона нет
 if [ ! -d "$CODE" ]; then

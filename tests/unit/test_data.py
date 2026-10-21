@@ -6,7 +6,13 @@ import pytest
 
 from debugmas.data.condefects import TestSource, list_python_tasks, read_difficulty, read_programs
 from debugmas.data.ground_truth import load_ground_truth
-from debugmas.data.prepare import DataConfig, DataError, find_test_source, load_index
+from debugmas.data.prepare import (
+    DataConfig,
+    DataError,
+    find_test_source,
+    load_index,
+    prepare_dataset,
+)
 
 
 def test_parse_fixtures(fixtures_root: Path):
@@ -17,6 +23,30 @@ def test_parse_fixtures(fixtures_root: Path):
     assert p.fault_lines == [6]
     assert read_difficulty(fixtures_root)["fx002_b"] == 1500
     assert "fx003_a" not in read_difficulty(fixtures_root)
+
+
+def test_unknown_difficulty_is_skipped(tmp_path: Path):
+    (tmp_path / "difficulty.txt").write_text("a 123\nb unknown\nc -1\n", encoding="utf-8")
+    assert read_difficulty(tmp_path) == {"a": 123}
+
+
+def test_prepare_selected_tasks(fixtures_root: Path, tmp_path: Path):
+    out = tmp_path / "processed"
+    report = prepare_dataset(
+        fixtures_root,
+        TestSource(test_dir=fixtures_root / "Test"),
+        out,
+        task_ids=["fx002_b", "fx001_a", "fx001_a"],
+    )
+    assert report["n_tasks_total"] == 2
+    assert {row["task_id"] for row in load_index(out)} == {"fx001_a", "fx002_b"}
+    with pytest.raises(DataError, match="missing"):
+        prepare_dataset(
+            fixtures_root,
+            TestSource(test_dir=fixtures_root / "Test"),
+            tmp_path / "bad",
+            task_ids=["missing"],
+        )
 
 
 def test_tests_from_dir_and_zip_are_equal(fixtures_root: Path, tmp_path: Path):

@@ -3,7 +3,7 @@ import random
 import pytest
 
 from debugmas.config import CONFIGS_DIR, load_yaml
-from debugmas.data.splits import bin_of, make_splits
+from debugmas.data.splits import bin_of, make_splits, read_manifest
 
 CFG = load_yaml(CONFIGS_DIR / "splits.yaml")
 
@@ -56,3 +56,18 @@ def test_small_bin_shrinks_with_warning(caplog):
     s = make_splits(idx, {"easy": [0, 400]}, {"val": 15, "test": 50}, 42, "p")
     assert len(s["val"]) == 3 and len(s["test"]) == 10 and len(s["dev"]) == 0
     assert "уменьшены" in caplog.text
+
+
+def test_reserved_pilot_tasks_stay_in_dev():
+    bins = CFG["presets"]["paper3"]["bins"]
+    index = _index()
+    reserved = {index[0]["task_id"], index[1]["task_id"]}
+    splits = make_splits(index, bins, CFG["sizes"], 42, "paper3", reserved_dev=reserved)
+    assert reserved <= set(splits["dev"])
+    assert not reserved.intersection(splits["val"] + splits["test"])
+
+
+def test_pilot_manifest_is_reserved():
+    ids = read_manifest(CONFIGS_DIR.parent / "splits" / "pilot", "paper3", "dev")
+    assert len(ids) == len(set(ids)) == 6
+    assert set(ids) == set(CFG["reserved_dev"])

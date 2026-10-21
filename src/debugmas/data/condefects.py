@@ -39,7 +39,11 @@ def _metadata(root: Path, name: str, cast):  # noqa: ANN001, ANN202
 
 
 def read_difficulty(root: Path) -> dict[str, int]:
-    return _metadata(root, "difficulty.txt", int)
+    return {
+        task_id: int(value)
+        for task_id, value in _metadata(root, "difficulty.txt", str).items()
+        if value.isdecimal()
+    }
 
 
 def read_dates(root: Path) -> dict[str, str]:
@@ -85,7 +89,9 @@ class TestSource:
                 names = set(archive.namelist())
                 for folder in folders:
                     prefix = f"Test/{folder}/"
-                    inputs = sorted(n for n in names if n.startswith(prefix + "in/") and not n.endswith("/"))
+                    inputs = sorted(
+                        n for n in names if n.startswith(prefix + "in/") and not n.endswith("/")
+                    )
                     if inputs:
                         return [
                             SourceTest(

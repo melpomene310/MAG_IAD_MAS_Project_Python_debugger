@@ -1,4 +1,90 @@
 # Сценарии фейковой LLM для `make smoke` и тестов: {solver: {task_id: [ответы]}}
+mas_sequential:
+  fx001_a:
+  - content: 'В строке 6 цикл не включает n; тест 04 показывает недостающий последний член.'
+  - content: |
+      ```python
+      n = int(input())
+      if n == 0:
+          print(0)
+          exit()
+      total = 0
+      for i in range(1, n + 1):
+          total += i
+      print(total)
+      ```
+  fx001_b:
+  - tool_calls:
+    - name: trace
+      arguments: {test: '01', lines: [4], expressions: [n], max_hits: 3}
+  - content: 'n не уменьшается в цикле: строка 5 использует // вместо //=.'
+  - content: |
+      ```python
+      n = int(input())
+      count = 0
+      while n > 0:
+          count += 1
+          n //= 100
+      print(count)
+      ```
+  - content: 'Проверка показывает WA: деление на 100 пропускает цифры.'
+  - content: 'Нужно делить n на 10, а не на 100.'
+  - content: |
+      ```python
+      n = int(input())
+      count = 0
+      while n > 0:
+          count += 1
+          n //= 10
+      print(count)
+      ```
+  fx001_c:
+  - content: 'Цикл до n включительно обращается к a[n] за пределами списка.'
+  - content: |
+      ```python
+      n = int(input())
+      a = list(map(int, input().split()))
+      best = a[0]
+      for i in range(1, n):
+          best = max(best, a[i])
+      print(best)
+      ```
+  fx002_a:
+  - content: 'Целочисленное деление отбрасывает дробную часть среднего.'
+  - content: |
+      ```python
+      n = int(input())
+      a = list(map(int, input().split()))
+      s = sum(a)
+      print(s / n)
+      ```
+  fx002_b:
+  - content: 'В рекурсии fib база должна возвращать k, а не 1.'
+  - content: |
+      ```python
+      import sys
+      import threading
+
+
+      def main():
+          n = int(input())
+          memo = {}
+
+          def fib(k):
+              if k <= 1:
+                  return k
+              if k in memo:
+                  return memo[k]
+              memo[k] = fib(k - 1) + fib(k - 2)
+              return memo[k]
+
+          print(fib(n))
+
+
+      sys.setrecursionlimit(10**6)
+      threading.stack_size(1 << 26)
+      threading.Thread(target=main).start()
+      ```
 workflow:
   fx001_a:
   - content: |

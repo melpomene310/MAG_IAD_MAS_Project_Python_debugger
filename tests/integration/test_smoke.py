@@ -1,4 +1,4 @@
-"""End-to-end: `make smoke` для обоих решателей создаёт полный набор файлов и отчёт."""
+"""End-to-end: `make smoke` для реализованных решателей создаёт файлы и отчёт."""
 
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ from debugmas.cli import main
 from debugmas.report.cases import render_case
 
 
-@pytest.mark.parametrize("solver", ["workflow", "single_agent"])
+@pytest.mark.parametrize("solver", ["workflow", "single_agent", "mas_sequential"])
 def test_smoke(solver: str, tmp_path: Path, capsys):
     data_dir, results = tmp_path / "data", tmp_path / "results"
     rc = main(

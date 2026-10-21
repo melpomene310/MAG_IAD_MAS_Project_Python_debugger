@@ -44,13 +44,18 @@ class DataConfig:
     memory_mb: int = 1024
     workers: int = 16
     limit_tasks: int | None = None
+    task_ids: list[str] | None = None
 
     @classmethod
     def from_dict(cls, data: dict) -> DataConfig:
-        return cls(**{
-            key: Path(value) if key in {"raw_dir", "test_zip", "test_dir", "processed_dir"} else value
-            for key, value in data.items()
-        })
+        return cls(
+            **{
+                key: Path(value)
+                if key in {"raw_dir", "test_zip", "test_dir", "processed_dir"}
+                else value
+                for key, value in data.items()
+            }
+        )
 
 
 def find_test_source(cfg: DataConfig) -> TestSource:
@@ -78,7 +83,9 @@ def _syntax_reason(program: Program) -> str | None:
 
 
 def _missing_library(stderr: str) -> str | None:
-    match = re.search(r"(?:ModuleNotFoundError|ImportError): No module named ['\"]([^'\"]+)", stderr)
+    match = re.search(
+        r"(?:ModuleNotFoundError|ImportError): No module named ['\"]([^'\"]+)", stderr
+    )
     return match.group(1).split(".")[0] if match else None
 
 
@@ -110,11 +117,17 @@ def _validate_program(
         if judge(fixed, source.expected.decode("utf-8", errors="replace")) != "AC":
             return "fixed_fails_tests", None, []
         fixed_times.append(fixed.wall_time)
-        tests.append(TestCase(source.name, input_path, expected_path, max(2.0, 3 * fixed.wall_time)))
+        tests.append(
+            TestCase(source.name, input_path, expected_path, max(2.0, 3 * fixed.wall_time))
+        )
     initial = run_tests(program.faulty_code, tests, workers=workers, memory_mb=memory_mb)
     if all(result.verdict == "AC" for result in initial):
         return "faulty_passes_all", None, []
-    return None, AgentView(program.task_id, program.program_id, program.faulty_code, tests, initial), fixed_times
+    return (
+        None,
+        AgentView(program.task_id, program.program_id, program.faulty_code, tests, initial),
+        fixed_times,
+    )
 
 
 def prepare_dataset(
@@ -127,6 +140,7 @@ def prepare_dataset(
     memory_mb: int = 1024,
     workers: int = 16,
     limit_tasks: int | None = None,
+    task_ids: list[str] | None = None,
 ) -> dict:
     root, out = Path(root), Path(out)
     if not (root / "Code").is_dir():
@@ -135,6 +149,11 @@ def prepare_dataset(
     (out / "tasks").mkdir(exist_ok=True)
     difficulties, dates = read_difficulty(root), read_dates(root)
     tasks = list_python_tasks(root)
+    if task_ids is not None:
+        unknown = sorted(set(task_ids) - set(tasks))
+        if unknown:
+            raise DataError(f"Задачи не найдены в ConDefects: {', '.join(unknown)}")
+        tasks = sorted(set(task_ids))
     if limit_tasks is not None:
         tasks = tasks[:limit_tasks]
     report: dict = {"n_tasks_total": len(tasks), "tasks": {}}
@@ -179,25 +198,49 @@ def prepare_dataset(
         task_dir = out / "tasks" / task_id
         save_agent_view(view, task_dir)
         lines = program.fixed_code.splitlines()
-        fixed_line = lines[program.fault_lines[0] - 1] if program.fault_lines and 0 < program.fault_lines[0] <= len(lines) else ""
+        fixed_line = (
+            lines[program.fault_lines[0] - 1]
+            if program.fault_lines and 0 < program.fault_lines[0] <= len(lines)
+            else ""
+        )
         save_ground_truth(
-            GroundTruth(task_id, program.program_id, program.fault_lines, program.fixed_code,
-                        fixed_line, difficulty, dates.get(task_id)), task_dir
+            GroundTruth(
+                task_id,
+                program.program_id,
+                program.fault_lines,
+                program.fixed_code,
+                fixed_line,
+                difficulty,
+                dates.get(task_id),
+            ),
+            task_dir,
         )
         (task_dir / "fixed_times.json").write_text(
             json.dumps(dict(zip((t.name for t in view.tests), times, strict=True)), indent=2),
             encoding="utf-8",
         )
-        index.append({"task_id": task_id, "program_id": program.program_id,
-                      "difficulty": difficulty, "date": dates.get(task_id),
-                      "n_tests": len(view.tests)})
-    report.update({
-        "n_tasks_kept": len(index),
-        "n_tasks_dropped": len(tasks) - len(index),
-        "dropped_tasks_by_reason": dict(dropped_reasons),
-        "programs_by_reason": dict(program_reasons),
-        "missing_libraries": {key.removeprefix("missing_library:"): value for key, value in program_reasons.items() if key.startswith("missing_library:")},
-    })
+        index.append(
+            {
+                "task_id": task_id,
+                "program_id": program.program_id,
+                "difficulty": difficulty,
+                "date": dates.get(task_id),
+                "n_tests": len(view.tests),
+            }
+        )
+    report.update(
+        {
+            "n_tasks_kept": len(index),
+            "n_tasks_dropped": len(tasks) - len(index),
+            "dropped_tasks_by_reason": dict(dropped_reasons),
+            "programs_by_reason": dict(program_reasons),
+            "missing_libraries": {
+                key.removeprefix("missing_library:"): value
+                for key, value in program_reasons.items()
+                if key.startswith("missing_library:")
+            },
+        }
+    )
     (out / "index.jsonl").write_text(
         "".join(json.dumps(row, ensure_ascii=False) + "\n" for row in index), encoding="utf-8"
     )
@@ -214,13 +257,21 @@ def run_data(cfg: DataConfig) -> dict:
         subprocess.run(["git", "clone", cfg.repo_url, str(cfg.raw_dir)], check=True)
     current = subprocess.run(
         ["git", "-C", str(cfg.raw_dir), "rev-parse", "HEAD"],
-        check=True, capture_output=True, text=True,
+        check=True,
+        capture_output=True,
+        text=True,
     ).stdout.strip()
     if current != cfg.commit:
         subprocess.run(["git", "-C", str(cfg.raw_dir), "fetch", "origin", cfg.commit], check=True)
         subprocess.run(["git", "-C", str(cfg.raw_dir), "checkout", cfg.commit], check=True)
     return prepare_dataset(
-        cfg.raw_dir, source, cfg.processed_dir, seed=cfg.seed,
+        cfg.raw_dir,
+        source,
+        cfg.processed_dir,
+        seed=cfg.seed,
         validation_time_limit_s=cfg.validation_time_limit_s,
-        memory_mb=cfg.memory_mb, workers=cfg.workers, limit_tasks=cfg.limit_tasks,
+        memory_mb=cfg.memory_mb,
+        workers=cfg.workers,
+        limit_tasks=cfg.limit_tasks,
+        task_ids=cfg.task_ids,
     )

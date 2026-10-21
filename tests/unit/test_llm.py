@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 
-from debugmas.llm.cache import LLMCache
+from debugmas.llm.cache import LLMCache, cache_key
 from debugmas.llm.client import LLMClient, LLMError
 from debugmas.llm.fake import FakeLLM
 from debugmas.llm.usage import Usage
@@ -81,6 +81,12 @@ def client(server: FakeServer, cache: LLMCache | None = None, **kw) -> LLMClient
 
 
 MSGS = [{"role": "user", "content": "hi"}]
+
+
+def test_cache_key_separates_provider_endpoints():
+    a = cache_key("http://provider-a/v1", "same-model", MSGS, None, {}, 0)
+    b = cache_key("http://provider-b/v1", "same-model", MSGS, None, {}, 0)
+    assert a != b
 
 
 def test_usage_parsed(server):

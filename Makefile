@@ -1,7 +1,11 @@
 # Единственная точка входа. Все цели выполняются внутри контейнера app.
 # Если make уже запущен внутри контейнера (/.dockerenv), команды выполняются напрямую.
+PROFILE ?= default
+ENV_FILE ?= $(if $(filter default,$(PROFILE)),.env,.env.$(PROFILE))
+COMPOSE := DEBUGMAS_ENV_FILE=$(ENV_FILE) docker compose
+
 ifeq ($(wildcard /.dockerenv),)
-DC := docker compose run --rm app
+DC := $(COMPOSE) run --rm app
 else
 DC :=
 endif
@@ -17,13 +21,13 @@ RUN_TAG ?=
 TASK ?=
 ARGS ?=
 
-.PHONY: build shell fetch-tests data split test lint smoke run final report case lock
+.PHONY: build shell fetch-tests data split test test-targeted lint lint-targeted lint-check-targeted smoke run final report case lock
 
 build:
-	docker compose build
+	$(COMPOSE) build
 
 shell:
-	docker compose run --rm app bash
+	$(COMPOSE) run --rm app bash
 
 lock:
 	docker run --rm -v $(CURDIR):/w -w /w ghcr.io/astral-sh/uv:0.4.30-python3.11-bookworm-slim uv lock
@@ -33,7 +37,7 @@ fetch-tests:
 	./scripts/fetch_tests.sh
 
 data:
-	$(PY) data --config configs/data.yaml
+	$(PY) data --config configs/data.yaml $(ARGS)
 
 split:
 	$(PY) split --preset $(PRESET)
@@ -41,8 +45,17 @@ split:
 test:
 	$(DC) sh -c "ruff check --no-cache src tests && ruff format --no-cache --check src tests && pytest -q"
 
+test-targeted:
+	$(DC) pytest -q $(ARGS)
+
+lint-check-targeted:
+	$(DC) sh -c "ruff check --no-cache $(ARGS) && ruff format --no-cache --check $(ARGS)"
+
 lint:
 	$(DC) sh -c "ruff format --no-cache src tests && ruff check --no-cache --fix src tests"
+
+lint-targeted:
+	$(DC) sh -c "ruff format --no-cache $(ARGS) && ruff check --no-cache --fix $(ARGS)"
 
 smoke:
 	$(PY) smoke --solver $(SOLVER)

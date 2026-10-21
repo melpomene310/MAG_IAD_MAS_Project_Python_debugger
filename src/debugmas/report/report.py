@@ -17,10 +17,12 @@ from debugmas.report.charts import make_charts
 
 log = logging.getLogger(__name__)
 
-AGENT_SOLVERS = ("single_agent", "mas")
+AGENT_SOLVERS = ("single_agent", "mas", "mas_sequential", "mas_competitive")
+PILOT_SOLVERS = {"workflow", "single_agent", "mas_sequential"}
 FIRST_ATTEMPT_RULE = (
     "Первая попытка — первая сданная программа до исправлений по результатам её проверки: "
-    "у `workflow` — первый ответ модели, у `single_agent` — первый `submit`."
+    "у `workflow` — первый ответ модели, у `single_agent` — первый `submit`, "
+    "у `mas_sequential` — первый ответ исправителя."
 )
 
 
@@ -53,6 +55,53 @@ def load_run(path: Path) -> RunData:
     meta = json.loads(meta_path.read_text(encoding="utf-8")) if meta_path.exists() else {}
     solver = cfg.get("solver", "?")
     return RunData(path, solver, solver, cfg, meta, evals, compute_metrics(evals, bins))
+
+
+def validate_pilot_comparison(runs: Sequence[RunData]) -> None:
+    """Не строить пилотный отчёт, если три архитектуры запущены в разных условиях."""
+    if not PILOT_SOLVERS <= {run.solver for run in runs}:
+        return
+    first = runs[0]
+    if not first.evals:
+        raise ValueError("Пилотное сравнение: в запусках нет задач")
+    checks = {
+        "набор задач": lambda r: sorted(e.task_id for e in r.evals),
+        "каталог данных": lambda r: str(Path(r.cfg.get("data_dir", "")).resolve()),
+        "выборка": lambda r: (r.cfg.get("split"), r.cfg.get("split_preset")),
+        "модель и параметры вызовов": lambda r: [
+            r.cfg.get("llm_resolved", {}).get(key)
+            for key in (
+                "model",
+                "base_url",
+                "temperature",
+                "max_output_tokens",
+                "reasoning",
+                "fake",
+                "timeout_s",
+                "max_retries",
+                "cache_enabled",
+            )
+        ],
+        "тарифы": lambda r: [
+            r.cfg.get("llm_resolved", {}).get(key)
+            for key in ("price_input_per_1m", "price_cached_input_per_1m", "price_output_per_1m")
+        ],
+        "границы сложности": lambda r: r.cfg.get("preset_bins"),
+        "лимиты и стартовая информация": lambda r: [
+            r.cfg.get(key)
+            for key in (
+                "max_attempts",
+                "max_steps",
+                "max_tokens_per_task",
+                "task_timeout_s",
+                "initial_failing_shown",
+                "show_expected_output",
+            )
+        ],
+    }
+    diffs = [name for name, get in checks.items() if any(get(r) != get(first) for r in runs[1:])]
+    if diffs:
+        raise ValueError(f"Пилотное сравнение: различаются {', '.join(diffs)}")
 
 
 # ---------- форматирование ----------
@@ -157,6 +206,7 @@ def section_conditions(runs: Sequence[RunData], bins: list[str]) -> list[str]:
 
     checks = {
         "модель": lambda r: r.cfg.get("llm_resolved", {}).get("model"),
+        "endpoint": lambda r: r.cfg.get("llm_resolved", {}).get("base_url"),
         "параметры вызовов": lambda r: [
             r.cfg.get("llm_resolved", {}).get(k)
             for k in ("temperature", "max_output_tokens", "reasoning")
@@ -425,6 +475,7 @@ def build_report(run_dirs: Sequence[Path], out_root: Path = Path("results/report
     if not run_dirs:
         raise ValueError('Не указаны запуски: make report RUNS="results/<id1> results/<id2>"')
     runs = [load_run(Path(p)) for p in run_dirs]
+    validate_pilot_comparison(runs)
     counts: dict[str, int] = {}
     for r in runs:
         counts[r.solver] = counts.get(r.solver, 0) + 1

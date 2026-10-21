@@ -138,6 +138,7 @@ class LLMClient:
         sleep: Callable[[float], None] = time.sleep,
     ) -> None:
         self.model = model
+        self.base_url = base_url
         self.temperature = temperature
         self.max_retries = max_retries
         self.max_output_tokens = max_output_tokens
@@ -166,7 +167,7 @@ class LLMClient:
         params = self._params()
         key = None
         if self.cache is not None:
-            key = cache_key(self.model, messages, tools, params, self.repeat_idx)
+            key = cache_key(self.base_url, self.model, messages, tools, params, self.repeat_idx)
             hit = self.cache.get(key)
             if hit is not None:
                 return self._from_cache(hit)
