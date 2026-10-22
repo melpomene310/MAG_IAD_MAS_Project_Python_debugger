@@ -53,7 +53,7 @@ class WorkflowSolver:
         try:
             for i in range(1, ctx.limits.max_attempts + 1):
                 if ctx.deadline_passed:
-                    raise TimeoutError("превышен таймаут задачи")
+                    raise TimeoutError("task timeout exceeded")
                 before = session.usage
                 t0 = time.monotonic()
                 resp = session.chat(messages, step=i)
@@ -109,7 +109,7 @@ class WorkflowSolver:
                             "role": "user",
                             "content": render(
                                 load_prompt("workflow_retry.md"),
-                                code=last_code or "(код не извлечён)",
+                                code=last_code or "(code was not extracted)",
                                 feedback=feedback,
                             ),
                         }

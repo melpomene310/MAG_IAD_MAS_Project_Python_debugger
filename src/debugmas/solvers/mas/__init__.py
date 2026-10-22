@@ -1,6 +1,3 @@
-"""Место для решателя `mas` (docs/spec.md, раздел 9).
+"""Мультиагентные решатели (docs/spec.md, раздел 9)."""
 
-MAS реализует интерфейс `Solver`, регистрируется через `register_solver("mas")`,
-использует инструменты из `tools/registry.py` и пишет в трассу поле `agent` с ролью.
-Пока не реализован.
-"""
+from debugmas.solvers.mas import sequential  # noqa: F401

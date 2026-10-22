@@ -197,9 +197,11 @@ def run_experiment(
         if run_dir.trace_path.exists():
             run_dir.trace_path.unlink()
 
+    if task_filter and done:
+        resolved["task_filter"] = sorted(done | set(task_ids))
     run_dir.write_config(resolved)
     meta = run_dir.read_meta() or build_meta(run_id, llm, {"split": split, "final": final})
-    meta["n_tasks"] = len(task_ids)
+    meta["n_tasks"] = len(done | set(task_ids))
     meta["finished"] = None
     meta.setdefault("resumed_at", [])
     if done:

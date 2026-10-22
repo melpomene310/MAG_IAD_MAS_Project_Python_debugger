@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A local, interactive viewer for debugmas trace.jsonl experiment logs."
+    />
+    <title>Trace Explorer · debugmas</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="Trace Explorer home">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span>Trace Explorer</span>
+      </a>
+      <p id="run-summary" class="run-summary">Choose a folder containing trace files to begin.</p>
+      <label class="folder-button" for="folder-input">
+        <span>Select other folder</span>
+        <input id="folder-input" type="file" webkitdirectory directory multiple />
+      </label>
+    </header>
+
+    <main class="app-shell" id="top">
+      <aside class="sidebar" aria-label="Available trace files">
+        <div class="sidebar-heading">
+          <div>
+            <p class="eyebrow">Imported traces</p>
+            <h1>Runs</h1>
+          </div>
+          <span id="run-count" class="count-pill">0</span>
+        </div>
+        <p class="sidebar-help">Every <code>trace.jsonl</code> found below the selected folder appears here.</p>
+        <div id="run-list" class="run-list" aria-live="polite"></div>
+      </aside>
+
+      <div id="resize-handle" class="resize-handle" role="separator" aria-orientation="vertical" aria-label="Resize runs panel" tabindex="0"></div>
+      <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" title="Hide runs panel">
+        <span aria-hidden="true">☰→</span><span class="sr-only">Hide runs panel</span>
+      </button>
+
+      <section class="content" aria-live="polite">
+        <section id="empty-state" class="empty-state">
+          <span class="empty-icon">↗</span>
+          <h2>Explore an experiment run</h2>
+          <p>
+            Select a folder. Trace Explorer searches it recursively for <code>trace.jsonl</code>
+            files and keeps all parsing in your browser.
+          </p>
+          <label class="primary-button" for="folder-input">Choose a folder</label>
+        </section>
+
+        <section id="viewer" hidden>
+          <div class="overview">
+            <div>
+              <h2 id="selected-title"></h2>
+              <p id="method-description" class="method-description"></p>
+            </div>
+            <div id="run-metrics" class="metrics" aria-label="Run metrics"></div>
+          </div>
+
+          <div class="legend" aria-label="Event colour legend">
+            <span><i class="legend-dot model"></i>Model message</span>
+            <span><i class="legend-dot inspect"></i>Investigation</span>
+            <span><i class="legend-dot execute"></i>Test execution</span>
+            <span><i class="legend-dot success"></i>Accepted / solved</span>
+            <span><i class="legend-dot warning"></i>Retry / rejected</span>
+            <span><i class="legend-dot error"></i>Error / timeout</span>
+          </div>
+
+          <div class="task-toolbar">
+            <div class="filter-group" role="group" aria-label="Filter tasks by outcome">
+              <button class="filter active" data-filter="all">All tasks</button>
+              <button class="filter" data-filter="solved">Solved</button>
+              <button class="filter" data-filter="failed">Not solved</button>
+            </div>
+            <div class="filter-group" role="group" aria-label="Filter events by attempt result">
+              <button class="attempt-filter active" data-attempt-filter="all">All events</button>
+              <button class="attempt-filter" data-attempt-filter="successful">Successful attempt</button>
+              <button class="attempt-filter" data-attempt-filter="failed">Failed attempt</button>
+            </div>
+            <label class="search-label">
+              <span class="sr-only">Find a task</span>
+              <input id="task-search" type="search" placeholder="Find task…" />
+            </label>
+          </div>
+
+          <div class="viewer-grid">
+            <nav id="task-list" class="task-list" aria-label="Tasks in selected run"></nav>
+            <article id="task-detail" class="task-detail"></article>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <template id="event-template">
+      <article class="event-card">
+        <header class="event-header">
+          <span class="event-index"></span>
+          <span class="event-title"></span>
+          <span class="event-meta"></span>
+        </header>
+        <p class="event-summary"></p>
+        <div class="event-expand"></div>
+      </article>
+    </template>
+
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -1,7 +1,10 @@
 .env
-data/
-results/
-.cache/
+.env.*
+!.env.example
+!.env.*.example
+/data/
+/results/
+/.cache/
 __pycache__/
 *.pyc
 .venv/

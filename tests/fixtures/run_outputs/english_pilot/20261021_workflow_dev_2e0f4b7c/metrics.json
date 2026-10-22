@@ -1,0 +1,685 @@
+{
+ "solver": "workflow",
+ "overall": {
+  "n_tasks": 6,
+  "first_attempt_success": {
+   "k": 4,
+   "n": 6,
+   "rate": 0.6666666666666666
+  },
+  "final_success": {
+   "k": 5,
+   "n": 6,
+   "rate": 0.8333333333333334
+  },
+  "partial": {
+   "k": 1,
+   "n": 6,
+   "rate": 0.16666666666666666
+  },
+  "fault_line_hit": {
+   "k": 5,
+   "n": 6,
+   "rate": 0.8333333333333334
+  },
+  "suspicious_patch": {
+   "k": 2,
+   "n": 6,
+   "rate": 0.3333333333333333
+  },
+  "status": {
+   "solved": 5,
+   "attempts_exhausted": 1
+  },
+  "failure_reasons": {
+   "решение": 1,
+   "бюджет": 0,
+   "инфраструктура": 0,
+   "взаимодействие": 0
+  },
+  "costs": {
+   "tokens": {
+    "input_uncached": 34753,
+    "input_cached": 20736,
+    "output": 4569,
+    "reasoning": 0,
+    "total": 60058
+   },
+   "requests": {
+    "ok": 9,
+    "failed": 0,
+    "without_usage": 0,
+    "failed_without_usage": 0
+   },
+   "cost_total": 0.006947683600000001,
+   "cost_per_episode": 0.0011579472666666667,
+   "successes": 5,
+   "cost_per_success": 0.0013895367200000002
+  },
+  "time": {
+   "n": 6,
+   "median": 5.959,
+   "p95": 65.355,
+   "max": 65.355,
+   "total": 108.859,
+   "rule": "ближайший ранг: значение с номером ceil(q·n) в отсортированном ряду"
+  }
+ },
+ "by_bin": {
+  "easy": {
+   "n_tasks": 2,
+   "first_attempt_success": {
+    "k": 2,
+    "n": 2,
+    "rate": 1.0
+   },
+   "final_success": {
+    "k": 2,
+    "n": 2,
+    "rate": 1.0
+   },
+   "partial": {
+    "k": 0,
+    "n": 2,
+    "rate": 0.0
+   },
+   "fault_line_hit": {
+    "k": 2,
+    "n": 2,
+    "rate": 1.0
+   },
+   "suspicious_patch": {
+    "k": 0,
+    "n": 2,
+    "rate": 0.0
+   },
+   "status": {
+    "solved": 2
+   },
+   "failure_reasons": {
+    "решение": 0,
+    "бюджет": 0,
+    "инфраструктура": 0,
+    "взаимодействие": 0
+   },
+   "costs": {
+    "tokens": {
+     "input_uncached": 1109,
+     "input_cached": 0,
+     "output": 280,
+     "reasoning": 0,
+     "total": 1389
+    },
+    "requests": {
+     "ok": 2,
+     "failed": 0,
+     "without_usage": 0,
+     "failed_without_usage": 0
+    },
+    "cost_total": 0.00028977,
+    "cost_per_episode": 0.000144885,
+    "successes": 2,
+    "cost_per_success": 0.000144885
+   },
+   "time": {
+    "n": 2,
+    "median": 1.874,
+    "p95": 4.392,
+    "max": 4.392,
+    "total": 6.266,
+    "rule": "ближайший ранг: значение с номером ceil(q·n) в отсортированном ряду"
+   }
+  },
+  "medium": {
+   "n_tasks": 2,
+   "first_attempt_success": {
+    "k": 1,
+    "n": 2,
+    "rate": 0.5
+   },
+   "final_success": {
+    "k": 1,
+    "n": 2,
+    "rate": 0.5
+   },
+   "partial": {
+    "k": 1,
+    "n": 2,
+    "rate": 0.5
+   },
+   "fault_line_hit": {
+    "k": 2,
+    "n": 2,
+    "rate": 1.0
+   },
+   "suspicious_patch": {
+    "k": 1,
+    "n": 2,
+    "rate": 0.5
+   },
+   "status": {
+    "solved": 1,
+    "attempts_exhausted": 1
+   },
+   "failure_reasons": {
+    "решение": 1,
+    "бюджет": 0,
+    "инфраструктура": 0,
+    "взаимодействие": 0
+   },
+   "costs": {
+    "tokens": {
+     "input_uncached": 19918,
+     "input_cached": 13312,
+     "output": 1271,
+     "reasoning": 0,
+     "total": 34501
+    },
+    "requests": {
+     "ok": 4,
+     "failed": 0,
+     "without_usage": 0,
+     "failed_without_usage": 0
+    },
+    "cost_total": 0.0032848712,
+    "cost_per_episode": 0.0016424356,
+    "successes": 1,
+    "cost_per_success": 0.0032848712
+   },
+   "time": {
+    "n": 2,
+    "median": 5.959,
+    "p95": 22.595,
+    "max": 22.595,
+    "total": 28.554,
+    "rule": "ближайший ранг: значение с номером ceil(q·n) в отсортированном ряду"
+   }
+  },
+  "hard": {
+   "n_tasks": 2,
+   "first_attempt_success": {
+    "k": 1,
+    "n": 2,
+    "rate": 0.5
+   },
+   "final_success": {
+    "k": 2,
+    "n": 2,
+    "rate": 1.0
+   },
+   "partial": {
+    "k": 0,
+    "n": 2,
+    "rate": 0.0
+   },
+   "fault_line_hit": {
+    "k": 1,
+    "n": 2,
+    "rate": 0.5
+   },
+   "suspicious_patch": {
+    "k": 1,
+    "n": 2,
+    "rate": 0.5
+   },
+   "status": {
+    "solved": 2
+   },
+   "failure_reasons": {
+    "решение": 0,
+    "бюджет": 0,
+    "инфраструктура": 0,
+    "взаимодействие": 0
+   },
+   "costs": {
+    "tokens": {
+     "input_uncached": 13726,
+     "input_cached": 7424,
+     "output": 3018,
+     "reasoning": 0,
+     "total": 24168
+    },
+    "requests": {
+     "ok": 3,
+     "failed": 0,
+     "without_usage": 0,
+     "failed_without_usage": 0
+    },
+    "cost_total": 0.0033730424000000007,
+    "cost_per_episode": 0.0016865212000000004,
+    "successes": 2,
+    "cost_per_success": 0.0016865212000000004
+   },
+   "time": {
+    "n": 2,
+    "median": 8.684,
+    "p95": 65.355,
+    "max": 65.355,
+    "total": 74.039,
+    "rule": "ближайший ранг: значение с номером ceil(q·n) в отсортированном ряду"
+   }
+  }
+ },
+ "llm_only": {
+  "overall": {
+   "n_tasks": 6,
+   "first_attempt_success": {
+    "k": 4,
+    "n": 6,
+    "rate": 0.6666666666666666
+   },
+   "final_success": {
+    "k": 4,
+    "n": 6,
+    "rate": 0.6666666666666666
+   },
+   "costs": {
+    "tokens": {
+     "input_uncached": 19236,
+     "input_cached": 256,
+     "output": 2994,
+     "reasoning": 0,
+     "total": 22486
+    },
+    "requests": {
+     "ok": 6,
+     "failed": 0,
+     "without_usage": 0,
+     "failed_without_usage": 0
+    },
+    "cost_total": 0.004058225600000001,
+    "cost_per_episode": 0.0006763709333333334,
+    "successes": 4,
+    "cost_per_success": 0.0010145564000000001
+   },
+   "time": {
+    "n": 6,
+    "median": 5.948,
+    "p95": 37.381,
+    "max": 37.381,
+    "total": 66.79,
+    "rule": "ближайший ранг: значение с номером ceil(q·n) в отсортированном ряду"
+   }
+  },
+  "by_bin": {
+   "easy": {
+    "n_tasks": 2,
+    "first_attempt_success": {
+     "k": 2,
+     "n": 2,
+     "rate": 1.0
+    },
+    "final_success": {
+     "k": 2,
+     "n": 2,
+     "rate": 1.0
+    },
+    "costs": {
+     "tokens": {
+      "input_uncached": 1109,
+      "input_cached": 0,
+      "output": 280,
+      "reasoning": 0,
+      "total": 1389
+     },
+     "requests": {
+      "ok": 2,
+      "failed": 0,
+      "without_usage": 0,
+      "failed_without_usage": 0
+     },
+     "cost_total": 0.00028977,
+     "cost_per_episode": 0.000144885,
+     "successes": 2,
+     "cost_per_success": 0.000144885
+    },
+    "time": {
+     "n": 2,
+     "median": 1.873,
+     "p95": 4.391,
+     "max": 4.391,
+     "total": 6.264,
+     "rule": "ближайший ранг: значение с номером ceil(q·n) в отсортированном ряду"
+    }
+   },
+   "medium": {
+    "n_tasks": 2,
+    "first_attempt_success": {
+     "k": 1,
+     "n": 2,
+     "rate": 0.5
+    },
+    "final_success": {
+     "k": 1,
+     "n": 2,
+     "rate": 0.5
+    },
+    "costs": {
+     "tokens": {
+      "input_uncached": 10808,
+      "input_cached": 0,
+      "output": 579,
+      "reasoning": 0,
+      "total": 11387
+     },
+     "requests": {
+      "ok": 2,
+      "failed": 0,
+      "without_usage": 0,
+      "failed_without_usage": 0
+     },
+     "cost_total": 0.0017061200000000002,
+     "cost_per_episode": 0.0008530600000000001,
+     "successes": 1,
+     "cost_per_success": 0.0017061200000000002
+    },
+    "time": {
+     "n": 2,
+     "median": 5.948,
+     "p95": 8.514,
+     "max": 8.514,
+     "total": 14.462,
+     "rule": "ближайший ранг: значение с номером ceil(q·n) в отсортированном ряду"
+    }
+   },
+   "hard": {
+    "n_tasks": 2,
+    "first_attempt_success": {
+     "k": 1,
+     "n": 2,
+     "rate": 0.5
+    },
+    "final_success": {
+     "k": 1,
+     "n": 2,
+     "rate": 0.5
+    },
+    "costs": {
+     "tokens": {
+      "input_uncached": 7319,
+      "input_cached": 256,
+      "output": 2135,
+      "reasoning": 0,
+      "total": 9710
+     },
+     "requests": {
+      "ok": 2,
+      "failed": 0,
+      "without_usage": 0,
+      "failed_without_usage": 0
+     },
+     "cost_total": 0.0020623356000000004,
+     "cost_per_episode": 0.0010311678000000002,
+     "successes": 1,
+     "cost_per_success": 0.0020623356000000004
+    },
+    "time": {
+     "n": 2,
+     "median": 8.683,
+     "p95": 37.381,
+     "max": 37.381,
+     "total": 46.064,
+     "rule": "ближайший ранг: значение с номером ceil(q·n) в отсортированном ряду"
+    }
+   }
+  }
+ },
+ "tasks": [
+  {
+   "task_id": "abc223_a",
+   "solver": "workflow",
+   "status": "solved",
+   "bin": "easy",
+   "first_attempt_success": true,
+   "final_success": true,
+   "tests_passed": 14,
+   "tests_total": 14,
+   "failure_reason": null,
+   "fault_line_hit": true,
+   "suspicious": [],
+   "usage": {
+    "input": 432,
+    "output": 106,
+    "reasoning": 0,
+    "cached_input": 0,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 538
+   },
+   "first_usage": {
+    "input": 432,
+    "output": 106,
+    "reasoning": 0,
+    "cached_input": 0,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 538
+   },
+   "cost": 0.00011128,
+   "first_cost": 0.00011128,
+   "wall_time_s": 1.874,
+   "first_wall_time_s": 1.873,
+   "error": null
+  },
+  {
+   "task_id": "abc223_d",
+   "solver": "workflow",
+   "status": "solved",
+   "bin": "medium",
+   "first_attempt_success": true,
+   "final_success": true,
+   "tests_passed": 22,
+   "tests_total": 22,
+   "failure_reason": null,
+   "fault_line_hit": true,
+   "suspicious": [],
+   "usage": {
+    "input": 5348,
+    "output": 255,
+    "reasoning": 0,
+    "cached_input": 0,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 5603
+   },
+   "first_usage": {
+    "input": 5348,
+    "output": 255,
+    "reasoning": 0,
+    "cached_input": 0,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 5603
+   },
+   "cost": 0.00082784,
+   "first_cost": 0.00082784,
+   "wall_time_s": 5.959,
+   "first_wall_time_s": 5.948,
+   "error": null
+  },
+  {
+   "task_id": "abc223_e",
+   "solver": "workflow",
+   "status": "solved",
+   "bin": "hard",
+   "first_attempt_success": true,
+   "final_success": true,
+   "tests_passed": 48,
+   "tests_total": 48,
+   "failure_reason": null,
+   "fault_line_hit": true,
+   "suspicious": [],
+   "usage": {
+    "input": 1595,
+    "output": 918,
+    "reasoning": 0,
+    "cached_input": 0,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 2513
+   },
+   "first_usage": {
+    "input": 1595,
+    "output": 918,
+    "reasoning": 0,
+    "cached_input": 0,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 2513
+   },
+   "cost": 0.00068471,
+   "first_cost": 0.00068471,
+   "wall_time_s": 8.684,
+   "first_wall_time_s": 8.683,
+   "error": null
+  },
+  {
+   "task_id": "abc223_f",
+   "solver": "workflow",
+   "status": "solved",
+   "bin": "hard",
+   "first_attempt_success": false,
+   "final_success": true,
+   "tests_passed": 33,
+   "tests_total": 33,
+   "failure_reason": null,
+   "fault_line_hit": false,
+   "suspicious": [
+    "large_patch:51"
+   ],
+   "usage": {
+    "input": 19555,
+    "output": 2100,
+    "reasoning": 0,
+    "cached_input": 7424,
+    "calls": 2,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 21655
+   },
+   "first_usage": {
+    "input": 5980,
+    "output": 1217,
+    "reasoning": 0,
+    "cached_input": 256,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 7197
+   },
+   "cost": 0.0026883324000000004,
+   "first_cost": 0.0013776256000000001,
+   "wall_time_s": 65.355,
+   "first_wall_time_s": 37.381,
+   "error": null
+  },
+  {
+   "task_id": "abc224_b",
+   "solver": "workflow",
+   "status": "solved",
+   "bin": "easy",
+   "first_attempt_success": true,
+   "final_success": true,
+   "tests_passed": 30,
+   "tests_total": 30,
+   "failure_reason": null,
+   "fault_line_hit": true,
+   "suspicious": [],
+   "usage": {
+    "input": 677,
+    "output": 174,
+    "reasoning": 0,
+    "cached_input": 0,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 851
+   },
+   "first_usage": {
+    "input": 677,
+    "output": 174,
+    "reasoning": 0,
+    "cached_input": 0,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 851
+   },
+   "cost": 0.00017849,
+   "first_cost": 0.00017849,
+   "wall_time_s": 4.392,
+   "first_wall_time_s": 4.391,
+   "error": null
+  },
+  {
+   "task_id": "abc225_d",
+   "solver": "workflow",
+   "status": "attempts_exhausted",
+   "bin": "medium",
+   "first_attempt_success": false,
+   "final_success": false,
+   "tests_passed": 5,
+   "tests_total": 25,
+   "failure_reason": "решение",
+   "fault_line_hit": true,
+   "suspicious": [
+    "large_patch:11"
+   ],
+   "usage": {
+    "input": 27882,
+    "output": 1016,
+    "reasoning": 0,
+    "cached_input": 13312,
+    "calls": 3,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 28898
+   },
+   "first_usage": {
+    "input": 5460,
+    "output": 324,
+    "reasoning": 0,
+    "cached_input": 0,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 5784
+   },
+   "cost": 0.0024570312,
+   "first_cost": 0.0008782800000000001,
+   "wall_time_s": 22.595,
+   "first_wall_time_s": 8.514,
+   "error": null
+  }
+ ]
+}

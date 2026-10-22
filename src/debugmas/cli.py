@@ -36,6 +36,12 @@ def cmd_data(args: argparse.Namespace) -> int:
     raw = load_yaml(args.config)
     if args.limit:
         raw["limit_tasks"] = args.limit
+    if args.task:
+        raw["task_ids"] = args.task
+    if args.out:
+        raw["processed_dir"] = args.out
+    if args.fast:
+        raw["fast"] = True
     try:
         report = run_data(DataConfig.from_dict(raw))
     except DataError as exc:
@@ -71,7 +77,12 @@ def cmd_split(args: argparse.Namespace) -> int:
     presets = list(cfg["presets"]) if args.all else [args.preset]
     for preset in presets:
         splits = make_splits(
-            index, cfg["presets"][preset]["bins"], cfg["sizes"], int(cfg["seed"]), preset
+            index,
+            cfg["presets"][preset]["bins"],
+            cfg["sizes"],
+            int(cfg["seed"]),
+            preset,
+            reserved_dev=set(cfg.get("reserved_dev", [])),
         )
         write_manifests(splits, Path(args.out) / preset)
         sizes = ", ".join(f"{k}={len(v)}" for k, v in splits.items())
@@ -166,7 +177,12 @@ def cmd_report(args: argparse.Namespace) -> int:
             file=sys.stderr,
         )
         return 2
-    print(f"Отчёт: {build_report(runs, Path(args.out))}")
+    try:
+        report = build_report(runs, Path(args.out))
+    except ValueError as exc:
+        print(f"ОШИБКА: {exc}", file=sys.stderr)
+        return 2
+    print(f"Отчёт: {report}")
     return 0
 
 
@@ -185,6 +201,9 @@ def build_parser() -> argparse.ArgumentParser:
     s = sub.add_parser("data", help="загрузить, нормализовать и провалидировать ConDefects")
     s.add_argument("--config", default=str(CONFIGS_DIR / "data.yaml"))
     s.add_argument("--limit", type=int, default=None, help="только первые N задач (отладка)")
+    s.add_argument("--task", action="append", help="подготовить выбранный task_id; можно повторять")
+    s.add_argument("--out", help="каталог подготовленных задач")
+    s.add_argument("--fast", action="store_true", help="быстро: не запускать исправленные версии")
     s.set_defaults(func=cmd_data)
 
     s = sub.add_parser("split", help="создать манифесты выборок")

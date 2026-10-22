@@ -1,8 +1,94 @@
-# Сценарии фейковой LLM для `make smoke` и тестов: {solver: {task_id: [ответы]}}
+# Fake LLM scripts for `make smoke` and tests: {solver: {task_id: [responses]}}
+mas_sequential:
+  fx001_a:
+  - content: 'On line 6, the loop excludes n; test 04 shows the missing final term.'
+  - content: |
+      ```python
+      n = int(input())
+      if n == 0:
+          print(0)
+          exit()
+      total = 0
+      for i in range(1, n + 1):
+          total += i
+      print(total)
+      ```
+  fx001_b:
+  - tool_calls:
+    - name: trace
+      arguments: {test: '01', lines: [4], expressions: [n], max_hits: 3}
+  - content: 'n is not updated in the loop: line 5 uses // instead of //=.'
+  - content: |
+      ```python
+      n = int(input())
+      count = 0
+      while n > 0:
+          count += 1
+          n //= 100
+      print(count)
+      ```
+  - content: 'Verification shows WA: dividing by 100 skips digits.'
+  - content: 'n must be divided by 10 rather than 100.'
+  - content: |
+      ```python
+      n = int(input())
+      count = 0
+      while n > 0:
+          count += 1
+          n //= 10
+      print(count)
+      ```
+  fx001_c:
+  - content: 'Iterating through n inclusive accesses a[n], which is outside the list.'
+  - content: |
+      ```python
+      n = int(input())
+      a = list(map(int, input().split()))
+      best = a[0]
+      for i in range(1, n):
+          best = max(best, a[i])
+      print(best)
+      ```
+  fx002_a:
+  - content: 'Integer division discards the fractional part of the average.'
+  - content: |
+      ```python
+      n = int(input())
+      a = list(map(int, input().split()))
+      s = sum(a)
+      print(s / n)
+      ```
+  fx002_b:
+  - content: 'In fib recursion, the base case must return k rather than 1.'
+  - content: |
+      ```python
+      import sys
+      import threading
+
+
+      def main():
+          n = int(input())
+          memo = {}
+
+          def fib(k):
+              if k <= 1:
+                  return k
+              if k in memo:
+                  return memo[k]
+              memo[k] = fib(k - 1) + fib(k - 2)
+              return memo[k]
+
+          print(fib(n))
+
+
+      sys.setrecursionlimit(10**6)
+      threading.stack_size(1 << 26)
+      threading.Thread(target=main).start()
+      ```
 workflow:
   fx001_a:
   - content: |
-      Цикл не включает n.
+      The loop excludes n.
 
       ```python
       n = int(input())
@@ -15,14 +101,14 @@ workflow:
       print(total)
       ```
   fx001_b:
-  - content: 'Похоже, n не уменьшается в цикле. Исправлю: n //= 10.'
+  - content: 'n does not appear to decrease in the loop. I will change it to n //= 10.'
   - content: |-
       ```python
       n = int(input(
       count = 0
       ```
   - content: |
-      Причина ошибки найдена.
+      The cause of the bug was found.
 
       ```python
       n = int(input())
@@ -34,7 +120,7 @@ workflow:
       ```
   fx001_c:
   - content: |
-      Выход за границу списка.
+      List index out of bounds.
 
       ```python
       n = int(input())
@@ -46,7 +132,7 @@ workflow:
       ```
   fx002_a:
   - content: |
-      Код выглядит верным.
+      The code looks correct.
 
       ```python
       n = int(input())
@@ -55,7 +141,7 @@ workflow:
       print(s // n)
       ```
   - content: |
-      Нужно вещественное деление.
+      Floating-point division is needed.
 
       ```python
       n = int(input())
@@ -65,7 +151,7 @@ workflow:
       ```
   fx002_b:
   - content: |
-      База рекурсии неверна.
+      The recursion base case is wrong.
 
       ```python
       import sys
@@ -118,7 +204,7 @@ single_agent:
               total += i
           print(total)
   fx001_b:
-  - content: Думаю, что проблема в цикле.
+  - content: I think the loop is the problem.
   - tool_calls:
     - name: trace
       arguments:

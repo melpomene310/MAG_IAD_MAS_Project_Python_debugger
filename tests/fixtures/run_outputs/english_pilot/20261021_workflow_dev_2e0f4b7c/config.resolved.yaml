@@ -1,0 +1,69 @@
+solver: workflow
+data_dir: data/pilot/final
+splits_dir: splits/pilot
+split_preset: paper3
+bins: null
+results_dir: results/pilot_live
+max_attempts: 3
+max_steps: 30
+max_tokens_per_task: 30000
+task_timeout_s: 600.0
+initial_failing_shown: 2
+show_expected_output: true
+tools:
+- run_tests
+- get_test
+- run_program
+- trace
+- submit
+tool_failing_shown: 2
+tool_response_max_chars: 3000
+context_keep_steps: 6
+trace_max_hits: 30
+memory_mb: 1024
+sandbox_workers: 8
+concurrency: 1
+llm:
+  model: null
+  temperature: 0.0
+  max_output_tokens: 4096
+  reasoning:
+    enabled: false
+  timeout_s: null
+  max_retries: 0
+  cache_enabled: false
+  repeat_idx: 0
+  fake: false
+  fake_script: null
+solver_params: {}
+llm_resolved:
+  model: deepseek/deepseek-v4.1-flash
+  base_url: https://openrouter.ai/api/v1
+  temperature: 0.0
+  max_output_tokens: 4096
+  reasoning:
+    enabled: false
+  timeout_s: 120.0
+  max_retries: 0
+  cache_enabled: false
+  cache_dir: /app/.cache/llm
+  repeat_idx: 0
+  fake: false
+  price_input_per_1m: 0.13
+  price_output_per_1m: 0.52
+  price_cached_input_per_1m: 0.0026
+model_interface_hash: 77e3916d5b57
+sandbox_python: /usr/local/bin/python
+split: dev
+preset_bins:
+  easy:
+  - 0
+  - 400
+  medium:
+  - 400
+  - 1300
+  hard:
+  - 1300
+  - null
+task_filter: null
+limit: null

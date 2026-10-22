@@ -1,0 +1,23 @@
+# Последовательная MAS: те же модель и общие лимиты, что у других решателей.
+solver: mas_sequential
+data_dir: data/processed
+split_preset: paper3
+results_dir: results
+
+max_attempts: 3
+max_steps: 30
+max_tokens_per_task: 300000
+task_timeout_s: 1800
+initial_failing_shown: 2
+show_expected_output: true
+tools: [run_tests, get_test, run_program, trace, submit]
+tool_failing_shown: 2
+tool_response_max_chars: 3000
+trace_max_hits: 30
+memory_mb: 1024
+sandbox_workers: 8
+
+llm:
+  temperature: 0
+  max_output_tokens: 16384
+  reasoning: {enabled: false}

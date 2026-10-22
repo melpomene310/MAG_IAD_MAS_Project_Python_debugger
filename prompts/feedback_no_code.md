@@ -1,1 +1,1 @@
-Блок кода не найден: в ответе нет блока ```python ... ``` с программой. Пришли исправленную программу целиком в таком блоке.
+No code block was found. Return the complete corrected program in a ```python ... ``` block.

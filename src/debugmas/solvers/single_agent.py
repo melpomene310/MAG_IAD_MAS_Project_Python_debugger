@@ -49,7 +49,7 @@ def _parse_args(raw: str) -> Any:
 
 def _args_for_trace(args: Any) -> Any:
     if isinstance(args, dict) and isinstance(args.get("code"), str):
-        return {**args, "code": f"<{len(args['code'].splitlines())} строк>"}
+        return {**args, "code": f"<{len(args['code'].splitlines())} lines>"}
     return args
 
 
@@ -80,7 +80,7 @@ class SingleAgentSolver:
                     status = "step_limit"
                     break
                 if ctx.deadline_passed:
-                    raise TimeoutError("превышен таймаут задачи")
+                    raise TimeoutError("task timeout exceeded")
                 visible = compact_messages(messages, tool_msgs, step, cfg.context_keep_steps)
                 resp = session.chat(visible, schemas, step=step + 1)
                 step += 1

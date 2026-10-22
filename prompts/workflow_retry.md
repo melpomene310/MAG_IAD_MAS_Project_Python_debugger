@@ -1,13 +1,13 @@
-Исправленная программа не прошла проверку.
+The corrected program did not pass verification.
 
-## Твой последний вариант программы
+## Your previous program
 
 ```
 {{code}}
 ```
 
-## Результат проверки
+## Verification result
 
 {{feedback}}
 
-Проанализируй, почему исправление не сработало, и пришли новый вариант ИСПРАВЛЕННОЙ ПРОГРАММЫ ЦЕЛИКОМ в блоке ```python ... ```.
+Analyze why the fix failed and return a new COMPLETE CORRECTED PROGRAM in a ```python ... ``` block.

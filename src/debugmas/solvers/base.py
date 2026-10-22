@@ -146,8 +146,7 @@ class LLMSession:
     def check_budget(self) -> None:
         if self.usage.total >= self.ctx.limits.max_tokens_per_task:
             raise TokenLimitReached(
-                f"израсходовано {self.usage.total} токенов "
-                f"(лимит {self.ctx.limits.max_tokens_per_task})"
+                f"used {self.usage.total} tokens (limit {self.ctx.limits.max_tokens_per_task})"
             )
 
     def chat(
@@ -175,6 +174,7 @@ class LLMSession:
             "llm_call",
             agent=self.agent,
             step=step,
+            args={"messages": messages, "tools": tools},
             result={
                 "content": resp.content,
                 "tool_calls": [tc.to_dict()["function"] for tc in resp.tool_calls],

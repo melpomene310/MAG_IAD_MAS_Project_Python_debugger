@@ -1,4 +1,4 @@
-Программа не разбирается интерпретатором Python 3 (синтаксическая ошибка):
+The program cannot be parsed by Python 3 (syntax error):
 
 ```
 {{error}}

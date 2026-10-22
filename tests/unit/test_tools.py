@@ -25,9 +25,9 @@ def test_type_validation(load_view):
     r = reg.call("trace", {"test": "01", "lines": ["3"], "expressions": ["a"]}, ctx)
     assert "integer" in r["error"]
     r = reg.call("get_test", {"name": "01", "extra": 1}, ctx)
-    assert "неизвестные аргументы" in r["error"]
+    assert "unknown arguments" in r["error"]
     r = reg.call("trace", {"test": "01", "lines": [99], "expressions": ["a"]}, ctx)
-    assert "диапазоне" in r["error"]
+    assert "in range" in r["error"]
 
 
 def test_run_program_and_get_test(load_view):
@@ -63,4 +63,4 @@ def test_submit_limit(load_view):
     ctx = ToolContext(view=view, max_submissions=1)
     reg = ToolRegistry(["submit"])
     assert reg.call("submit", {"code": view.code}, ctx)["accepted"] is False
-    assert "исчерпаны" in reg.call("submit", {"code": view.code}, ctx)["error"]
+    assert "exhausted" in reg.call("submit", {"code": view.code}, ctx)["error"]

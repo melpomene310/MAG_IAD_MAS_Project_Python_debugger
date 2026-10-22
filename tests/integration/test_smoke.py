@@ -1,4 +1,4 @@
-"""End-to-end: `make smoke` для обоих решателей создаёт полный набор файлов и отчёт."""
+"""End-to-end: `make smoke` для реализованных решателей создаёт файлы и отчёт."""
 
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ from debugmas.cli import main
 from debugmas.report.cases import render_case
 
 
-@pytest.mark.parametrize("solver", ["workflow", "single_agent"])
+@pytest.mark.parametrize("solver", ["workflow", "single_agent", "mas_sequential"])
 def test_smoke(solver: str, tmp_path: Path, capsys):
     data_dir, results = tmp_path / "data", tmp_path / "results"
     rc = main(
@@ -63,7 +63,12 @@ def test_resume_skips_done(tmp_path: Path):
         "configs/smoke.yaml", {"data_dir": str(data_dir), "results_dir": str(tmp_path / "r")}
     )
     out1 = run_experiment(cfg, "all", task_filter=["fx001_a", "fx001_c"])
+    out_step = run_experiment(cfg, "all", task_filter=["fx001_b"])
+    assert out_step == out1
+    assert json.loads((out_step / "meta.json").read_text())["n_tasks"] == 3
+    assert len((out_step / "tasks.jsonl").read_text().splitlines()) == 3
     out2 = run_experiment(cfg, "all")
     assert out1 == out2
     lines = (out2 / "tasks.jsonl").read_text().splitlines()
     assert len(lines) == 5  # две задачи не перерешивались
+    assert json.loads((out2 / "meta.json").read_text())["n_tasks"] == 5

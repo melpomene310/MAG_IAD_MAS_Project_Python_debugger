@@ -18,7 +18,7 @@ def run_tests(ctx: ToolContext, args: dict[str, Any]) -> dict[str, Any]:
         wanted = list(args["tests"])
         missing = [n for n in wanted if ctx.view.test_by_name(n) is None]
         if missing:
-            raise ToolArgumentError(f"нет тестов: {missing[:10]}")
+            raise ToolArgumentError(f"tests do not exist: {missing[:10]}")
         tests = [t for t in tests if t.name in set(wanted)]
     results = ctx.run_all(code, tests)
     failed = [r.name for r in results if r.verdict != "AC"]
@@ -34,25 +34,25 @@ def run_tests(ctx: ToolContext, args: dict[str, Any]) -> dict[str, Any]:
 
 
 def _summary(result: dict[str, Any]) -> str:
-    return ", ".join(f"{n} {v}" for v, n in result.get("summary", {}).items()) or "нет тестов"
+    return ", ".join(f"{n} {v}" for v, n in result.get("summary", {}).items()) or "no tests"
 
 
 register(
     Tool(
         name="run_tests",
         description=(
-            "Прогнать программу на тестах задачи. Возвращает сводку вердиктов (AC/WA/RE/TLE/MLE), "
-            "имена упавших тестов и вход, ожидаемый и полученный вывод для нескольких самых "
-            "коротких упавших тестов. Без `code` проверяется исходная программа."
+            "Run a program on task tests. Returns verdict counts (AC/WA/RE/TLE/MLE), failed test "
+            "names, and input, expected output, and actual output for several shortest failures. "
+            "Without `code`, tests the original program."
         ),
         parameters={
             "type": "object",
             "properties": {
-                "code": {"type": "string", "description": "Полный текст программы"},
+                "code": {"type": "string", "description": "Complete program source"},
                 "tests": {
                     "type": "array",
                     "items": {"type": "string"},
-                    "description": "Имена тестов; по умолчанию все",
+                    "description": "Test names; all tests by default",
                 },
             },
         },

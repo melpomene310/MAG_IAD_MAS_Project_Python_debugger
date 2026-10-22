@@ -95,7 +95,7 @@ def trace(
         out.max_hits_reached = True
     if res.timed_out:
         out.hint = (
-            "Трассировка прервана по таймауту; возвращены собранные значения. "
-            "Возьмите вход поменьше (run_program/trace с input) или меньше строк."
+            "Tracing timed out; collected values are returned. Use a smaller input "
+            "(run_program/trace with input) or fewer lines."
         )
     return out

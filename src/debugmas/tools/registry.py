@@ -70,11 +70,9 @@ def _check_type(name: str, value: Any, spec: dict[str, Any]) -> None:
         return
     allowed = _JSON_TYPES[t]
     if isinstance(value, bool) and t in ("integer", "number"):
-        raise ToolArgumentError(f"аргумент '{name}' должен быть {t}, получено boolean")
+        raise ToolArgumentError(f"argument '{name}' must be {t}, got boolean")
     if not isinstance(value, allowed):
-        raise ToolArgumentError(
-            f"аргумент '{name}' должен быть {t}, получено {type(value).__name__}"
-        )
+        raise ToolArgumentError(f"argument '{name}' must be {t}, got {type(value).__name__}")
     if t == "array" and "items" in spec:
         for i, item in enumerate(value):
             _check_type(f"{name}[{i}]", item, spec["items"])
@@ -82,15 +80,15 @@ def _check_type(name: str, value: Any, spec: dict[str, Any]) -> None:
 
 def validate_args(tool: Tool, args: Any) -> dict[str, Any]:
     if not isinstance(args, dict):
-        raise ToolArgumentError("аргументы должны быть JSON-объектом")
+        raise ToolArgumentError("arguments must be a JSON object")
     props: dict[str, Any] = tool.parameters.get("properties", {})
     for req in tool.parameters.get("required", []):
         if req not in args:
-            raise ToolArgumentError(f"не передан обязательный аргумент '{req}'")
+            raise ToolArgumentError(f"required argument '{req}' is missing")
     unknown = sorted(set(args) - set(props))
     if unknown:
         raise ToolArgumentError(
-            f"неизвестные аргументы: {', '.join(unknown)}; допустимые: {', '.join(props)}"
+            f"unknown arguments: {', '.join(unknown)}; allowed: {', '.join(props)}"
         )
     for k, v in args.items():
         if v is None:
@@ -184,25 +182,25 @@ class ToolRegistry:
         """Ошибки возвращаются как результат `{"error": ...}`, а не исключением."""
         tool = self.tools.get(name)
         if tool is None:
-            return {"error": f"неизвестный инструмент '{name}'; доступны: {self.names()}"}
+            return {"error": f"unknown tool '{name}'; available: {self.names()}"}
         try:
             args = json.loads(raw_args) if isinstance(raw_args, str) else raw_args
             if args is None:
                 args = {}
         except json.JSONDecodeError as exc:
-            return {"error": f"аргументы не являются корректным JSON: {exc}"}
+            return {"error": f"arguments are not valid JSON: {exc}"}
         try:
             args = validate_args(tool, args)
             result = tool.fn(ctx, args)
         except ToolArgumentError as exc:
-            return {"error": f"ошибка аргументов {name}: {exc}"}
+            return {"error": f"argument error in {name}: {exc}"}
         except Exception as exc:  # noqa: BLE001 — инструмент не должен ронять решатель
-            return {"error": f"ошибка выполнения {name}: {type(exc).__name__}: {exc}"}
+            return {"error": f"execution error in {name}: {type(exc).__name__}: {exc}"}
         return truncate_response(result, ctx.max_chars)
 
     def summarize(self, name: str, result: dict[str, Any]) -> str:
         if "error" in result:
-            return f"[ошибка {name} — сокращено]"
+            return f"[{name} error — truncated]"
         tool = self.tools.get(name)
         body = tool.summarize(result) if tool else name
-        return f"[результат {name}: {body} — сокращено]"
+        return f"[{name} result: {body} — truncated]"

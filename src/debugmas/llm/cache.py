@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS responses (
 
 
 def cache_key(
+    base_url: str,
     model: str,
     messages: list[dict[str, Any]],
     tools: list[dict[str, Any]] | None,
@@ -28,6 +29,7 @@ def cache_key(
     repeat_idx: int,
 ) -> str:
     payload = {
+        "base_url": base_url,
         "model": model,
         "messages": messages,
         "tools": tools or [],

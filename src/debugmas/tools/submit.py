@@ -12,7 +12,7 @@ from debugmas.tools.registry import Tool, ToolArgumentError, register
 
 def submit(ctx: ToolContext, args: dict[str, Any]) -> dict[str, Any]:
     if ctx.submissions_left <= 0:
-        raise ToolArgumentError("попытки сдачи исчерпаны")
+        raise ToolArgumentError("submission attempts are exhausted")
     code = args["code"]
     start = time.monotonic()
     results = ctx.run_all(code)
@@ -34,13 +34,14 @@ register(
     Tool(
         name="submit",
         description=(
-            "Сдать исправленную программу целиком. Прогоняются все тесты; если все AC — решение "
-            "принято и сессия завершается. Иначе возвращается сводка вердиктов. "
-            "Число попыток ограничено — сначала проверьте решение через run_tests."
+            "Submit a complete corrected program. All tests are run; if all are AC, "
+            "the solution is "
+            "accepted and the session ends. Otherwise returns verdict counts. Submission attempts "
+            "are limited; check the solution with run_tests first."
         ),
         parameters={
             "type": "object",
-            "properties": {"code": {"type": "string", "description": "Полный текст программы"}},
+            "properties": {"code": {"type": "string", "description": "Complete program source"}},
             "required": ["code"],
         },
         fn=submit,

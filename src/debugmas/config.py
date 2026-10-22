@@ -1,12 +1,13 @@
-"""Настройки: `.env` (endpoint, секреты) и YAML-конфиги экспериментов.
+"""Настройки: выбранный файл окружения (endpoint, секреты) и YAML-конфиги.
 
-Приоритет: аргументы CLI > YAML > `.env`.
+Приоритет: аргументы CLI > YAML > окружение.
 """
 
 from __future__ import annotations
 
 import hashlib
 import json
+import os
 from pathlib import Path
 from typing import Any
 
@@ -20,9 +21,13 @@ CONFIGS_DIR = REPO_ROOT / "configs"
 
 
 class Settings(BaseSettings):
-    """Куда и к какой модели обращаться. Загружается из окружения / `.env`."""
+    """Куда и к какой модели обращаться. Файл выбирает DEBUGMAS_ENV_FILE."""
 
     model_config = SettingsConfigDict(env_file=".env", extra="ignore", env_ignore_empty=True)
+
+    def __init__(self, **values: Any) -> None:
+        values.setdefault("_env_file", os.environ.get("DEBUGMAS_ENV_FILE", ".env"))
+        super().__init__(**values)
 
     openai_base_url: str = "http://host.docker.internal:8000/v1"
     openai_api_key: str = "changeme"
@@ -49,9 +54,36 @@ RUN_LLM_KEYS = (
     "fake",
 )
 
+MODEL_INTERFACE_PATHS = (
+    "src/debugmas/feedback.py",
+    "src/debugmas/sandbox/tracer.py",
+    "src/debugmas/solvers/common.py",
+    "src/debugmas/solvers/single_agent.py",
+    "src/debugmas/solvers/workflow.py",
+    "src/debugmas/solvers/mas/sequential.py",
+    "src/debugmas/tools/get_test.py",
+    "src/debugmas/tools/registry.py",
+    "src/debugmas/tools/run_program.py",
+    "src/debugmas/tools/run_tests.py",
+    "src/debugmas/tools/submit.py",
+    "src/debugmas/tools/trace.py",
+)
+
+
+def model_interface_hash() -> str:
+    """Fingerprint all committed files that can change messages sent to the LLM."""
+    paths = [*sorted(PROMPTS_DIR.glob("*.md")), *(REPO_ROOT / p for p in MODEL_INTERFACE_PATHS)]
+    digest = hashlib.sha256()
+    for path in paths:
+        digest.update(str(path.relative_to(REPO_ROOT)).encode())
+        digest.update(b"\0")
+        digest.update(path.read_bytes())
+        digest.update(b"\0")
+    return digest.hexdigest()[:12]
+
 
 class LLMConfig(BaseModel):
-    model: str | None = None  # None — из .env
+    model: str | None = None  # None — из выбранного файла окружения
     temperature: float = 0.0
     max_output_tokens: int | None = None
     reasoning: dict[str, Any] | None = None  # OpenRouter: {"enabled": false} и т.п.
@@ -97,8 +129,11 @@ class ExperimentConfig(BaseModel):
 
     def short_hash(self, llm: dict[str, Any] | None = None) -> str:
         """Хэш для id запуска. `llm` — итоговые параметры модели (`resolve_llm`):
-        без них смена MODEL в .env продолжила бы старый запуск с другой моделью."""
-        payload: dict[str, Any] = {"config": self.model_dump()}
+        без них смена MODEL в профиле продолжила бы старый запуск с другой моделью."""
+        payload: dict[str, Any] = {
+            "config": self.model_dump(),
+            "model_interface_hash": model_interface_hash(),
+        }
         if llm is not None:
             payload["llm"] = {k: llm.get(k) for k in RUN_LLM_KEYS}
         blob = json.dumps(payload, sort_keys=True, ensure_ascii=False, default=str)
@@ -143,7 +178,7 @@ def load_experiment_config(
 
 
 def resolve_llm(cfg: ExperimentConfig, settings: Settings) -> dict[str, Any]:
-    """Итоговые параметры LLM: YAML поверх `.env`."""
+    """Итоговые параметры LLM: YAML поверх выбранного окружения."""
     llm = cfg.llm
     return {
         "model": llm.model or settings.model,
@@ -173,6 +208,7 @@ def resolved_config_dict(cfg: ExperimentConfig, settings: Settings) -> dict[str,
     """Итоговый конфиг запуска без секретов (для `config.resolved.yaml`)."""
     d = cfg.model_dump()
     d["llm_resolved"] = resolve_llm(cfg, settings)
+    d["model_interface_hash"] = model_interface_hash()
     d["sandbox_python"] = settings.sandbox_python
     return d
 

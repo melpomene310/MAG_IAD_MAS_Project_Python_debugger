@@ -15,7 +15,7 @@ def get_test(ctx: ToolContext, args: dict[str, Any]) -> dict[str, Any]:
     test = ctx.view.test_by_name(args["name"])
     if test is None:
         names = [t.name for t in ctx.view.tests]
-        raise ToolArgumentError(f"нет теста '{args['name']}'; доступны: {names[:30]}")
+        raise ToolArgumentError(f"test '{args['name']}' does not exist; available: {names[:30]}")
     inp = test.read_input()
     out: dict[str, Any] = {
         "name": test.name,
@@ -33,13 +33,13 @@ def get_test(ctx: ToolContext, args: dict[str, Any]) -> dict[str, Any]:
 register(
     Tool(
         name="get_test",
-        description="Получить вход и ожидаемый вывод теста по имени (с обрезкой) и их размеры.",
+        description="Get a test's input and expected output by name, truncated with their sizes.",
         parameters={
             "type": "object",
-            "properties": {"name": {"type": "string", "description": "Имя теста"}},
+            "properties": {"name": {"type": "string", "description": "Test name"}},
             "required": ["name"],
         },
         fn=get_test,
-        summarize=lambda r: f"тест {r.get('name')}",
+        summarize=lambda r: f"test {r.get('name')}",
     )
 )
