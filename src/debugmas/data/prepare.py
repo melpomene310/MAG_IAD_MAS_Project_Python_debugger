@@ -43,6 +43,7 @@ class DataConfig:
     validation_time_limit_s: float = 10.0
     memory_mb: int = 1024
     workers: int = 16
+    fast: bool = False
     limit_tasks: int | None = None
     task_ids: list[str] | None = None
 
@@ -130,6 +131,33 @@ def _validate_program(
     )
 
 
+def _prepare_fast_program(
+    program: Program,
+    source_tests: list[SourceTest],
+    memory_mb: int,
+    workers: int,
+    task_dir: Path,
+) -> tuple[str | None, AgentView | None]:
+    """Prepare one faulty version without executing its corrected counterpart."""
+    reason = _syntax_reason(program)
+    if reason:
+        return reason, None
+    task_dir.mkdir(parents=True, exist_ok=True)
+    tests_dir = task_dir / "tests"
+    tests_dir.mkdir(exist_ok=True)
+    tests = []
+    for source in source_tests:
+        input_path = tests_dir / f"{source.name}.in"
+        expected_path = tests_dir / f"{source.name}.out"
+        input_path.write_bytes(source.input_data)
+        expected_path.write_bytes(source.expected)
+        tests.append(TestCase(source.name, input_path, expected_path))
+    initial = run_tests(program.faulty_code, tests, workers=workers, memory_mb=memory_mb)
+    if all(result.verdict == "AC" for result in initial):
+        return "faulty_passes_all", None
+    return None, AgentView(program.task_id, program.program_id, program.faulty_code, tests, initial)
+
+
 def prepare_dataset(
     root: Path,
     test_source: TestSource,
@@ -139,6 +167,7 @@ def prepare_dataset(
     validation_time_limit_s: float = 10.0,
     memory_mb: int = 1024,
     workers: int = 16,
+    fast: bool = False,
     limit_tasks: int | None = None,
     task_ids: list[str] | None = None,
 ) -> dict:
@@ -178,17 +207,26 @@ def prepare_dataset(
                 program_reasons["no_tests"] += 1
             dropped_reasons["no_tests"] += 1
             continue
-        valid = []
-        for program in programs:
+        valid: list[tuple[Program, AgentView, list[float] | None]] = []
+        candidates = programs.copy()
+        for program in candidates:
             task_dir = out / "tasks" / task_id
-            reason, view, times = _validate_program(
-                program, source_tests, validation_time_limit_s, memory_mb, workers, task_dir
-            )
+            if fast:
+                reason, view = _prepare_fast_program(
+                    program, source_tests, memory_mb, workers, task_dir
+                )
+                times = None
+            else:
+                reason, view, times = _validate_program(
+                    program, source_tests, validation_time_limit_s, memory_mb, workers, task_dir
+                )
             if reason:
                 item["programs"][program.program_id] = reason
                 program_reasons[reason] += 1
             else:
                 valid.append((program, view, times))
+                if fast:
+                    break
         if not valid:
             dropped_reasons["no_valid_program"] += 1
             shutil.rmtree(out / "tasks" / task_id, ignore_errors=True)
@@ -215,10 +253,11 @@ def prepare_dataset(
             ),
             task_dir,
         )
-        (task_dir / "fixed_times.json").write_text(
-            json.dumps(dict(zip((t.name for t in view.tests), times, strict=True)), indent=2),
-            encoding="utf-8",
-        )
+        if times is not None:
+            (task_dir / "fixed_times.json").write_text(
+                json.dumps(dict(zip((t.name for t in view.tests), times, strict=True)), indent=2),
+                encoding="utf-8",
+            )
         index.append(
             {
                 "task_id": task_id,
@@ -272,6 +311,7 @@ def run_data(cfg: DataConfig) -> dict:
         validation_time_limit_s=cfg.validation_time_limit_s,
         memory_mb=cfg.memory_mb,
         workers=cfg.workers,
+        fast=cfg.fast,
         limit_tasks=cfg.limit_tasks,
         task_ids=cfg.task_ids,
     )

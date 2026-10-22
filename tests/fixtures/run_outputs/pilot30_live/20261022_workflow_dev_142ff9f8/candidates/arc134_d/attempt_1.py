@@ -1,0 +1,3 @@
+bottom = A[now+N]
+...
+if A[i] < bottom or (A[i] == bottom and ok == 1):

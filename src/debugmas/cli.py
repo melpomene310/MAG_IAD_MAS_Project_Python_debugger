@@ -40,6 +40,8 @@ def cmd_data(args: argparse.Namespace) -> int:
         raw["task_ids"] = args.task
     if args.out:
         raw["processed_dir"] = args.out
+    if args.fast:
+        raw["fast"] = True
     try:
         report = run_data(DataConfig.from_dict(raw))
     except DataError as exc:
@@ -201,6 +203,7 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("--limit", type=int, default=None, help="только первые N задач (отладка)")
     s.add_argument("--task", action="append", help="подготовить выбранный task_id; можно повторять")
     s.add_argument("--out", help="каталог подготовленных задач")
+    s.add_argument("--fast", action="store_true", help="быстро: не запускать исправленные версии")
     s.set_defaults(func=cmd_data)
 
     s = sub.add_parser("split", help="создать манифесты выборок")

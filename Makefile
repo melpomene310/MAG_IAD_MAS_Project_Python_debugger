@@ -20,8 +20,9 @@ RUNS ?=
 RUN_TAG ?=
 TASK ?=
 ARGS ?=
+PILOT_ARGS ?=
 
-.PHONY: build shell fetch-tests data split test test-targeted lint lint-targeted lint-check-targeted smoke run final report case lock
+.PHONY: build shell fetch-tests data split prepare-pilot30 run-pilot30 test test-targeted lint lint-targeted lint-check-targeted smoke run final report case lock
 
 build:
 	$(COMPOSE) build
@@ -41,6 +42,13 @@ data:
 
 split:
 	$(PY) split --preset $(PRESET)
+
+# Формирование набора читает локальные data/raw/ и быстро готовит выбранные задачи.
+prepare-pilot30:
+	./scripts/prepare_pilot30.sh
+
+run-pilot30:
+	./scripts/run_pilot30.sh $(PILOT_ARGS)
 
 test:
 	$(DC) sh -c "ruff check --no-cache src tests && ruff format --no-cache --check src tests && pytest -q"

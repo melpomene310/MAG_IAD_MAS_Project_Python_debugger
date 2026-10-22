@@ -13,6 +13,7 @@ from debugmas.data.prepare import (
     load_index,
     prepare_dataset,
 )
+from debugmas.data.schema import load_agent_view
 
 
 def test_parse_fixtures(fixtures_root: Path):
@@ -98,6 +99,37 @@ def test_float_task_tolerance(load_view):
     view = load_view("fx002_a")
     verdicts = {r.name: r.verdict for r in view.initial_results}
     assert verdicts == {"01": "WA", "02": "AC", "03": "WA"}
+
+
+def test_fast_prepare_uses_next_faulty_program_without_running_fixed(tmp_path: Path):
+    root = tmp_path / "ConDefects"
+    test_root = tmp_path / "Test"
+    root.mkdir()
+    (root / "difficulty.txt").write_text("demo_a 100\n", encoding="utf-8")
+    for program_id, faulty, fixed in (
+        ("1001", "print(1)\n", "print(1)\n"),
+        ("1002", "print(0)\n", "raise RuntimeError('fixed code must not run')\n"),
+    ):
+        program_dir = root / "Code" / "demo_a" / "Python" / program_id
+        program_dir.mkdir(parents=True)
+        (program_dir / "faultyVersion.py").write_text(faulty, encoding="utf-8")
+        (program_dir / "correctVersion.py").write_text(fixed, encoding="utf-8")
+        (program_dir / "faultLocation.txt").write_text("1\n", encoding="utf-8")
+    (test_root / "demo" / "A" / "in").mkdir(parents=True)
+    (test_root / "demo" / "A" / "out").mkdir()
+    (test_root / "demo" / "A" / "in" / "01.txt").write_text("\n", encoding="utf-8")
+    (test_root / "demo" / "A" / "out" / "01.txt").write_text("1\n", encoding="utf-8")
+
+    out = tmp_path / "processed"
+    report = prepare_dataset(root, TestSource(test_dir=test_root), out, fast=True)
+
+    assert report["tasks"]["demo_a"]["programs"]["1001"] == "faulty_passes_all"
+    assert report["tasks"]["demo_a"]["kept"] == "1002"
+    view = load_agent_view(out / "tasks" / "demo_a")
+    assert view.program_id == "1002"
+    assert view.initial_results[0].verdict == "WA"
+    assert view.tests[0].time_limit_s == 2.0
+    assert not (out / "tasks" / "demo_a" / "fixed_times.json").exists()
 
 
 def test_missing_test_zip_message(tmp_path: Path):

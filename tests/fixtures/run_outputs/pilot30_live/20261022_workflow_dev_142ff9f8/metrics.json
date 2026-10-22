@@ -1,0 +1,1711 @@
+{
+ "solver": "workflow",
+ "overall": {
+  "n_tasks": 30,
+  "first_attempt_success": {
+   "k": 10,
+   "n": 30,
+   "rate": 0.3333333333333333
+  },
+  "final_success": {
+   "k": 17,
+   "n": 30,
+   "rate": 0.5666666666666667
+  },
+  "partial": {
+   "k": 9,
+   "n": 30,
+   "rate": 0.3
+  },
+  "fault_line_hit": {
+   "k": 22,
+   "n": 30,
+   "rate": 0.7333333333333333
+  },
+  "suspicious_patch": {
+   "k": 10,
+   "n": 30,
+   "rate": 0.3333333333333333
+  },
+  "status": {
+   "solved": 17,
+   "attempts_exhausted": 13
+  },
+  "failure_reasons": {
+   "решение": 13,
+   "бюджет": 0,
+   "инфраструктура": 0,
+   "взаимодействие": 0
+  },
+  "costs": {
+   "tokens": {
+    "input_uncached": 262983,
+    "input_cached": 231690,
+    "output": 109060,
+    "reasoning": 24576,
+    "total": 603733
+   },
+   "requests": {
+    "ok": 65,
+    "failed": 0,
+    "without_usage": 0,
+    "failed_without_usage": 0
+   },
+   "cost_total": 0.09150138399999999,
+   "cost_per_episode": 0.003050046133333333,
+   "successes": 17,
+   "cost_per_success": 0.005382434352941176
+  },
+  "time": {
+   "n": 30,
+   "median": 16.36,
+   "p95": 73.557,
+   "max": 82.737,
+   "total": 762.226,
+   "rule": "ближайший ранг: значение с номером ceil(q·n) в отсортированном ряду"
+  }
+ },
+ "by_bin": {
+  "easy": {
+   "n_tasks": 10,
+   "first_attempt_success": {
+    "k": 7,
+    "n": 10,
+    "rate": 0.7
+   },
+   "final_success": {
+    "k": 9,
+    "n": 10,
+    "rate": 0.9
+   },
+   "partial": {
+    "k": 1,
+    "n": 10,
+    "rate": 0.1
+   },
+   "fault_line_hit": {
+    "k": 8,
+    "n": 10,
+    "rate": 0.8
+   },
+   "suspicious_patch": {
+    "k": 0,
+    "n": 10,
+    "rate": 0.0
+   },
+   "status": {
+    "solved": 9,
+    "attempts_exhausted": 1
+   },
+   "failure_reasons": {
+    "решение": 1,
+    "бюджет": 0,
+    "инфраструктура": 0,
+    "взаимодействие": 0
+   },
+   "costs": {
+    "tokens": {
+     "input_uncached": 17114,
+     "input_cached": 5248,
+     "output": 2914,
+     "reasoning": 0,
+     "total": 25276
+    },
+    "requests": {
+     "ok": 14,
+     "failed": 0,
+     "without_usage": 0,
+     "failed_without_usage": 0
+    },
+    "cost_total": 0.0037537448,
+    "cost_per_episode": 0.00037537448,
+    "successes": 9,
+    "cost_per_success": 0.00041708275555555556
+   },
+   "time": {
+    "n": 10,
+    "median": 2.333,
+    "p95": 7.111,
+    "max": 7.111,
+    "total": 34.892999999999994,
+    "rule": "ближайший ранг: значение с номером ceil(q·n) в отсортированном ряду"
+   }
+  },
+  "medium": {
+   "n_tasks": 10,
+   "first_attempt_success": {
+    "k": 2,
+    "n": 10,
+    "rate": 0.2
+   },
+   "final_success": {
+    "k": 5,
+    "n": 10,
+    "rate": 0.5
+   },
+   "partial": {
+    "k": 3,
+    "n": 10,
+    "rate": 0.3
+   },
+   "fault_line_hit": {
+    "k": 7,
+    "n": 10,
+    "rate": 0.7
+   },
+   "suspicious_patch": {
+    "k": 4,
+    "n": 10,
+    "rate": 0.4
+   },
+   "status": {
+    "attempts_exhausted": 5,
+    "solved": 5
+   },
+   "failure_reasons": {
+    "решение": 5,
+    "бюджет": 0,
+    "инфраструктура": 0,
+    "взаимодействие": 0
+   },
+   "costs": {
+    "tokens": {
+     "input_uncached": 115259,
+     "input_cached": 101878,
+     "output": 46077,
+     "reasoning": 12288,
+     "total": 263214
+    },
+    "requests": {
+     "ok": 25,
+     "failed": 0,
+     "without_usage": 0,
+     "failed_without_usage": 0
+    },
+    "cost_total": 0.039208592800000004,
+    "cost_per_episode": 0.00392085928,
+    "successes": 5,
+    "cost_per_success": 0.00784171856
+   },
+   "time": {
+    "n": 10,
+    "median": 19.423,
+    "p95": 73.557,
+    "max": 73.557,
+    "total": 308.80100000000004,
+    "rule": "ближайший ранг: значение с номером ceil(q·n) в отсортированном ряду"
+   }
+  },
+  "hard": {
+   "n_tasks": 10,
+   "first_attempt_success": {
+    "k": 1,
+    "n": 10,
+    "rate": 0.1
+   },
+   "final_success": {
+    "k": 3,
+    "n": 10,
+    "rate": 0.3
+   },
+   "partial": {
+    "k": 5,
+    "n": 10,
+    "rate": 0.5
+   },
+   "fault_line_hit": {
+    "k": 7,
+    "n": 10,
+    "rate": 0.7
+   },
+   "suspicious_patch": {
+    "k": 6,
+    "n": 10,
+    "rate": 0.6
+   },
+   "status": {
+    "solved": 3,
+    "attempts_exhausted": 7
+   },
+   "failure_reasons": {
+    "решение": 7,
+    "бюджет": 0,
+    "инфраструктура": 0,
+    "взаимодействие": 0
+   },
+   "costs": {
+    "tokens": {
+     "input_uncached": 130610,
+     "input_cached": 124564,
+     "output": 60069,
+     "reasoning": 12288,
+     "total": 315243
+    },
+    "requests": {
+     "ok": 26,
+     "failed": 0,
+     "without_usage": 0,
+     "failed_without_usage": 0
+    },
+    "cost_total": 0.0485390464,
+    "cost_per_episode": 0.00485390464,
+    "successes": 3,
+    "cost_per_success": 0.016179682133333335
+   },
+   "time": {
+    "n": 10,
+    "median": 38.665,
+    "p95": 82.737,
+    "max": 82.737,
+    "total": 418.53200000000004,
+    "rule": "ближайший ранг: значение с номером ceil(q·n) в отсортированном ряду"
+   }
+  }
+ },
+ "llm_only": {
+  "overall": {
+   "n_tasks": 30,
+   "first_attempt_success": {
+    "k": 10,
+    "n": 30,
+    "rate": 0.3333333333333333
+   },
+   "final_success": {
+    "k": 10,
+    "n": 30,
+    "rate": 0.3333333333333333
+   },
+   "costs": {
+    "tokens": {
+     "input_uncached": 111451,
+     "input_cached": 848,
+     "output": 42711,
+     "reasoning": 8192,
+     "total": 155010
+    },
+    "requests": {
+     "ok": 30,
+     "failed": 0,
+     "without_usage": 0,
+     "failed_without_usage": 0
+    },
+    "cost_total": 0.03670055480000001,
+    "cost_per_episode": 0.0012233518266666669,
+    "successes": 10,
+    "cost_per_success": 0.003670055480000001
+   },
+   "time": {
+    "n": 30,
+    "median": 5.787,
+    "p95": 22.858,
+    "max": 51.4,
+    "total": 299.97499999999997,
+    "rule": "ближайший ранг: значение с номером ceil(q·n) в отсортированном ряду"
+   }
+  },
+  "by_bin": {
+   "easy": {
+    "n_tasks": 10,
+    "first_attempt_success": {
+     "k": 7,
+     "n": 10,
+     "rate": 0.7
+    },
+    "final_success": {
+     "k": 7,
+     "n": 10,
+     "rate": 0.7
+    },
+    "costs": {
+     "tokens": {
+      "input_uncached": 13414,
+      "input_cached": 0,
+      "output": 1483,
+      "reasoning": 0,
+      "total": 14897
+     },
+     "requests": {
+      "ok": 10,
+      "failed": 0,
+      "without_usage": 0,
+      "failed_without_usage": 0
+     },
+     "cost_total": 0.00251498,
+     "cost_per_episode": 0.000251498,
+     "successes": 7,
+     "cost_per_success": 0.0003592828571428571
+    },
+    "time": {
+     "n": 10,
+     "median": 1.815,
+     "p95": 5.787,
+     "max": 5.787,
+     "total": 24.575999999999993,
+     "rule": "ближайший ранг: значение с номером ceil(q·n) в отсортированном ряду"
+    }
+   },
+   "medium": {
+    "n_tasks": 10,
+    "first_attempt_success": {
+     "k": 2,
+     "n": 10,
+     "rate": 0.2
+    },
+    "final_success": {
+     "k": 2,
+     "n": 10,
+     "rate": 0.2
+    },
+    "costs": {
+     "tokens": {
+      "input_uncached": 45790,
+      "input_cached": 404,
+      "output": 18557,
+      "reasoning": 4096,
+      "total": 64751
+     },
+     "requests": {
+      "ok": 10,
+      "failed": 0,
+      "without_usage": 0,
+      "failed_without_usage": 0
+     },
+     "cost_total": 0.0156033904,
+     "cost_per_episode": 0.00156033904,
+     "successes": 2,
+     "cost_per_success": 0.0078016952
+    },
+    "time": {
+     "n": 10,
+     "median": 6.704,
+     "p95": 51.4,
+     "max": 51.4,
+     "total": 120.832,
+     "rule": "ближайший ранг: значение с номером ceil(q·n) в отсортированном ряду"
+    }
+   },
+   "hard": {
+    "n_tasks": 10,
+    "first_attempt_success": {
+     "k": 1,
+     "n": 10,
+     "rate": 0.1
+    },
+    "final_success": {
+     "k": 1,
+     "n": 10,
+     "rate": 0.1
+    },
+    "costs": {
+     "tokens": {
+      "input_uncached": 52247,
+      "input_cached": 444,
+      "output": 22671,
+      "reasoning": 4096,
+      "total": 75362
+     },
+     "requests": {
+      "ok": 10,
+      "failed": 0,
+      "without_usage": 0,
+      "failed_without_usage": 0
+     },
+     "cost_total": 0.0185821844,
+     "cost_per_episode": 0.00185821844,
+     "successes": 1,
+     "cost_per_success": 0.0185821844
+    },
+    "time": {
+     "n": 10,
+     "median": 16.394,
+     "p95": 22.858,
+     "max": 22.858,
+     "total": 154.567,
+     "rule": "ближайший ранг: значение с номером ceil(q·n) в отсортированном ряду"
+    }
+   }
+  }
+ },
+ "tasks": [
+  {
+   "task_id": "abc223_a",
+   "solver": "workflow",
+   "status": "solved",
+   "bin": "easy",
+   "first_attempt_success": true,
+   "final_success": true,
+   "tests_passed": 14,
+   "tests_total": 14,
+   "failure_reason": null,
+   "fault_line_hit": true,
+   "suspicious": [],
+   "usage": {
+    "input": 359,
+    "output": 31,
+    "reasoning": 0,
+    "cached_input": 0,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 390
+   },
+   "first_usage": {
+    "input": 359,
+    "output": 31,
+    "reasoning": 0,
+    "cached_input": 0,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 390
+   },
+   "cost": 6.279e-05,
+   "first_cost": 6.279e-05,
+   "wall_time_s": 1.604,
+   "first_wall_time_s": 1.602,
+   "error": null
+  },
+  {
+   "task_id": "abc223_d",
+   "solver": "workflow",
+   "status": "attempts_exhausted",
+   "bin": "medium",
+   "first_attempt_success": false,
+   "final_success": false,
+   "tests_passed": 0,
+   "tests_total": 22,
+   "failure_reason": "решение",
+   "fault_line_hit": false,
+   "suspicious": [],
+   "usage": {
+    "input": 17394,
+    "output": 12288,
+    "reasoning": 12288,
+    "cached_input": 11392,
+    "calls": 3,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 29682
+   },
+   "first_usage": {
+    "input": 5726,
+    "output": 4096,
+    "reasoning": 4096,
+    "cached_input": 0,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 9822
+   },
+   "cost": 0.007199639200000001,
+   "first_cost": 0.0028743,
+   "wall_time_s": 52.092,
+   "first_wall_time_s": 16.929,
+   "error": null
+  },
+  {
+   "task_id": "abc223_e",
+   "solver": "workflow",
+   "status": "solved",
+   "bin": "hard",
+   "first_attempt_success": true,
+   "final_success": true,
+   "tests_passed": 48,
+   "tests_total": 48,
+   "failure_reason": null,
+   "fault_line_hit": true,
+   "suspicious": [],
+   "usage": {
+    "input": 889,
+    "output": 385,
+    "reasoning": 0,
+    "cached_input": 0,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 1274
+   },
+   "first_usage": {
+    "input": 889,
+    "output": 385,
+    "reasoning": 0,
+    "cached_input": 0,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 1274
+   },
+   "cost": 0.00031577000000000005,
+   "first_cost": 0.00031577000000000005,
+   "wall_time_s": 2.935,
+   "first_wall_time_s": 2.93,
+   "error": null
+  },
+  {
+   "task_id": "abc223_f",
+   "solver": "workflow",
+   "status": "attempts_exhausted",
+   "bin": "hard",
+   "first_attempt_success": false,
+   "final_success": false,
+   "tests_passed": 6,
+   "tests_total": 33,
+   "failure_reason": "решение",
+   "fault_line_hit": true,
+   "suspicious": [
+    "large_patch:66"
+   ],
+   "usage": {
+    "input": 44060,
+    "output": 5270,
+    "reasoning": 0,
+    "cached_input": 18478,
+    "calls": 3,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 49330
+   },
+   "first_usage": {
+    "input": 7395,
+    "output": 424,
+    "reasoning": 0,
+    "cached_input": 148,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 7819
+   },
+   "cost": 0.006114102800000001,
+   "first_cost": 0.0011629748,
+   "wall_time_s": 58.968,
+   "first_wall_time_s": 16.394,
+   "error": null
+  },
+  {
+   "task_id": "abc224_b",
+   "solver": "workflow",
+   "status": "solved",
+   "bin": "easy",
+   "first_attempt_success": true,
+   "final_success": true,
+   "tests_passed": 30,
+   "tests_total": 30,
+   "failure_reason": null,
+   "fault_line_hit": true,
+   "suspicious": [],
+   "usage": {
+    "input": 2648,
+    "output": 195,
+    "reasoning": 0,
+    "cached_input": 0,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 2843
+   },
+   "first_usage": {
+    "input": 2648,
+    "output": 195,
+    "reasoning": 0,
+    "cached_input": 0,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 2843
+   },
+   "cost": 0.00044563999999999997,
+   "first_cost": 0.00044563999999999997,
+   "wall_time_s": 5.792,
+   "first_wall_time_s": 5.787,
+   "error": null
+  },
+  {
+   "task_id": "abc225_d",
+   "solver": "workflow",
+   "status": "attempts_exhausted",
+   "bin": "medium",
+   "first_attempt_success": false,
+   "final_success": false,
+   "tests_passed": 4,
+   "tests_total": 25,
+   "failure_reason": "решение",
+   "fault_line_hit": true,
+   "suspicious": [
+    "large_patch:35"
+   ],
+   "usage": {
+    "input": 69812,
+    "output": 1086,
+    "reasoning": 0,
+    "cached_input": 36834,
+    "calls": 3,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 70898
+   },
+   "first_usage": {
+    "input": 14570,
+    "output": 312,
+    "reasoning": 0,
+    "cached_input": 0,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 14882
+   },
+   "cost": 0.004947628400000001,
+   "first_cost": 0.0020563400000000003,
+   "wall_time_s": 33.768,
+   "first_wall_time_s": 8.179,
+   "error": null
+  },
+  {
+   "task_id": "abc233_f",
+   "solver": "workflow",
+   "status": "attempts_exhausted",
+   "bin": "hard",
+   "first_attempt_success": false,
+   "final_success": false,
+   "tests_passed": 22,
+   "tests_total": 48,
+   "failure_reason": "решение",
+   "fault_line_hit": false,
+   "suspicious": [],
+   "usage": {
+    "input": 39560,
+    "output": 8808,
+    "reasoning": 0,
+    "cached_input": 19200,
+    "calls": 3,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 48368
+   },
+   "first_usage": {
+    "input": 7627,
+    "output": 4096,
+    "reasoning": 0,
+    "cached_input": 0,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 11723
+   },
+   "cost": 0.00727688,
+   "first_cost": 0.00312143,
+   "wall_time_s": 46.662,
+   "first_wall_time_s": 18.125,
+   "error": null
+  },
+  {
+   "task_id": "abc236_b",
+   "solver": "workflow",
+   "status": "solved",
+   "bin": "easy",
+   "first_attempt_success": false,
+   "final_success": true,
+   "tests_passed": 10,
+   "tests_total": 10,
+   "failure_reason": null,
+   "fault_line_hit": true,
+   "suspicious": [],
+   "usage": {
+    "input": 7329,
+    "output": 271,
+    "reasoning": 0,
+    "cached_input": 2816,
+    "calls": 2,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 7600
+   },
+   "first_usage": {
+    "input": 2962,
+    "output": 123,
+    "reasoning": 0,
+    "cached_input": 0,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 3085
+   },
+   "cost": 0.0007349316000000001,
+   "first_cost": 0.00044902,
+   "wall_time_s": 4.524,
+   "first_wall_time_s": 2.318,
+   "error": null
+  },
+  {
+   "task_id": "abc258_a",
+   "solver": "workflow",
+   "status": "solved",
+   "bin": "easy",
+   "first_attempt_success": true,
+   "final_success": true,
+   "tests_passed": 10,
+   "tests_total": 10,
+   "failure_reason": null,
+   "fault_line_hit": false,
+   "suspicious": [],
+   "usage": {
+    "input": 440,
+    "output": 125,
+    "reasoning": 0,
+    "cached_input": 0,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 565
+   },
+   "first_usage": {
+    "input": 440,
+    "output": 125,
+    "reasoning": 0,
+    "cached_input": 0,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 565
+   },
+   "cost": 0.00012220000000000002,
+   "first_cost": 0.00012220000000000002,
+   "wall_time_s": 1.506,
+   "first_wall_time_s": 1.498,
+   "error": null
+  },
+  {
+   "task_id": "abc271_c",
+   "solver": "workflow",
+   "status": "solved",
+   "bin": "medium",
+   "first_attempt_success": true,
+   "final_success": true,
+   "tests_passed": 29,
+   "tests_total": 29,
+   "failure_reason": null,
+   "fault_line_hit": false,
+   "suspicious": [],
+   "usage": {
+    "input": 2174,
+    "output": 322,
+    "reasoning": 0,
+    "cached_input": 0,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 2496
+   },
+   "first_usage": {
+    "input": 2174,
+    "output": 322,
+    "reasoning": 0,
+    "cached_input": 0,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 2496
+   },
+   "cost": 0.00045006,
+   "first_cost": 0.00045006,
+   "wall_time_s": 6.727,
+   "first_wall_time_s": 6.704,
+   "error": null
+  },
+  {
+   "task_id": "abc275_c",
+   "solver": "workflow",
+   "status": "solved",
+   "bin": "medium",
+   "first_attempt_success": false,
+   "final_success": true,
+   "tests_passed": 15,
+   "tests_total": 15,
+   "failure_reason": null,
+   "fault_line_hit": true,
+   "suspicious": [],
+   "usage": {
+    "input": 7622,
+    "output": 5171,
+    "reasoning": 0,
+    "cached_input": 1536,
+    "calls": 2,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 12793
+   },
+   "first_usage": {
+    "input": 1693,
+    "output": 4096,
+    "reasoning": 0,
+    "cached_input": 0,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 5789
+   },
+   "cost": 0.0034840936,
+   "first_cost": 0.00235001,
+   "wall_time_s": 13.225,
+   "first_wall_time_s": 9.379,
+   "error": null
+  },
+  {
+   "task_id": "abc281_b",
+   "solver": "workflow",
+   "status": "attempts_exhausted",
+   "bin": "easy",
+   "first_attempt_success": false,
+   "final_success": false,
+   "tests_passed": 16,
+   "tests_total": 22,
+   "failure_reason": "решение",
+   "fault_line_hit": true,
+   "suspicious": [],
+   "usage": {
+    "input": 3901,
+    "output": 1356,
+    "reasoning": 0,
+    "cached_input": 2432,
+    "calls": 3,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 5257
+   },
+   "first_usage": {
+    "input": 639,
+    "output": 263,
+    "reasoning": 0,
+    "cached_input": 0,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 902
+   },
+   "cost": 0.0009024132,
+   "first_cost": 0.00021983,
+   "wall_time_s": 7.111,
+   "first_wall_time_s": 1.815,
+   "error": null
+  },
+  {
+   "task_id": "abc288_d",
+   "solver": "workflow",
+   "status": "solved",
+   "bin": "hard",
+   "first_attempt_success": false,
+   "final_success": true,
+   "tests_passed": 46,
+   "tests_total": 46,
+   "failure_reason": null,
+   "fault_line_hit": true,
+   "suspicious": [
+    "large_patch:20"
+   ],
+   "usage": {
+    "input": 25095,
+    "output": 722,
+    "reasoning": 0,
+    "cached_input": 7040,
+    "calls": 2,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 25817
+   },
+   "first_usage": {
+    "input": 6655,
+    "output": 399,
+    "reasoning": 0,
+    "cached_input": 0,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 7054
+   },
+   "cost": 0.0027408940000000002,
+   "first_cost": 0.0010726300000000002,
+   "wall_time_s": 34.836,
+   "first_wall_time_s": 22.858,
+   "error": null
+  },
+  {
+   "task_id": "abc290_g",
+   "solver": "workflow",
+   "status": "solved",
+   "bin": "hard",
+   "first_attempt_success": false,
+   "final_success": true,
+   "tests_passed": 65,
+   "tests_total": 65,
+   "failure_reason": null,
+   "fault_line_hit": true,
+   "suspicious": [],
+   "usage": {
+    "input": 8970,
+    "output": 4551,
+    "reasoning": 0,
+    "cached_input": 2420,
+    "calls": 2,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 13521
+   },
+   "first_usage": {
+    "input": 2401,
+    "output": 4096,
+    "reasoning": 0,
+    "cached_input": 148,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 6497
+   },
+   "cost": 0.003224312,
+   "first_cost": 0.0024231948000000003,
+   "wall_time_s": 18.654,
+   "first_wall_time_s": 15.71,
+   "error": null
+  },
+  {
+   "task_id": "abc293_b",
+   "solver": "workflow",
+   "status": "solved",
+   "bin": "easy",
+   "first_attempt_success": true,
+   "final_success": true,
+   "tests_passed": 16,
+   "tests_total": 16,
+   "failure_reason": null,
+   "fault_line_hit": true,
+   "suspicious": [],
+   "usage": {
+    "input": 3379,
+    "output": 137,
+    "reasoning": 0,
+    "cached_input": 0,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 3516
+   },
+   "first_usage": {
+    "input": 3379,
+    "output": 137,
+    "reasoning": 0,
+    "cached_input": 0,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 3516
+   },
+   "cost": 0.00051051,
+   "first_cost": 0.00051051,
+   "wall_time_s": 2.333,
+   "first_wall_time_s": 2.328,
+   "error": null
+  },
+  {
+   "task_id": "abc294_f",
+   "solver": "workflow",
+   "status": "attempts_exhausted",
+   "bin": "hard",
+   "first_attempt_success": false,
+   "final_success": false,
+   "tests_passed": 12,
+   "tests_total": 33,
+   "failure_reason": "решение",
+   "fault_line_hit": true,
+   "suspicious": [
+    "large_patch:35"
+   ],
+   "usage": {
+    "input": 25242,
+    "output": 1977,
+    "reasoning": 0,
+    "cached_input": 12288,
+    "calls": 3,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 27219
+   },
+   "first_usage": {
+    "input": 4148,
+    "output": 348,
+    "reasoning": 0,
+    "cached_input": 0,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 4496
+   },
+   "cost": 0.0027440087999999994,
+   "first_cost": 0.0007202,
+   "wall_time_s": 51.913,
+   "first_wall_time_s": 17.63,
+   "error": null
+  },
+  {
+   "task_id": "abc295_a",
+   "solver": "workflow",
+   "status": "solved",
+   "bin": "easy",
+   "first_attempt_success": true,
+   "final_success": true,
+   "tests_passed": 32,
+   "tests_total": 32,
+   "failure_reason": null,
+   "fault_line_hit": true,
+   "suspicious": [],
+   "usage": {
+    "input": 603,
+    "output": 117,
+    "reasoning": 0,
+    "cached_input": 0,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 720
+   },
+   "first_usage": {
+    "input": 603,
+    "output": 117,
+    "reasoning": 0,
+    "cached_input": 0,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 720
+   },
+   "cost": 0.00013923,
+   "first_cost": 0.00013923,
+   "wall_time_s": 1.622,
+   "first_wall_time_s": 1.618,
+   "error": null
+  },
+  {
+   "task_id": "abc297_d",
+   "solver": "workflow",
+   "status": "solved",
+   "bin": "easy",
+   "first_attempt_success": true,
+   "final_success": true,
+   "tests_passed": 26,
+   "tests_total": 26,
+   "failure_reason": null,
+   "fault_line_hit": false,
+   "suspicious": [],
+   "usage": {
+    "input": 644,
+    "output": 116,
+    "reasoning": 0,
+    "cached_input": 0,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 760
+   },
+   "first_usage": {
+    "input": 644,
+    "output": 116,
+    "reasoning": 0,
+    "cached_input": 0,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 760
+   },
+   "cost": 0.00014403999999999998,
+   "first_cost": 0.00014403999999999998,
+   "wall_time_s": 1.659,
+   "first_wall_time_s": 1.653,
+   "error": null
+  },
+  {
+   "task_id": "abc297_e",
+   "solver": "workflow",
+   "status": "attempts_exhausted",
+   "bin": "medium",
+   "first_attempt_success": false,
+   "final_success": false,
+   "tests_passed": 0,
+   "tests_total": 43,
+   "failure_reason": "решение",
+   "fault_line_hit": false,
+   "suspicious": [
+    "large_patch:17"
+   ],
+   "usage": {
+    "input": 6433,
+    "output": 4892,
+    "reasoning": 0,
+    "cached_input": 0,
+    "calls": 3,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 11325
+   },
+   "first_usage": {
+    "input": 872,
+    "output": 311,
+    "reasoning": 0,
+    "cached_input": 0,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 1183
+   },
+   "cost": 0.0033801300000000003,
+   "first_cost": 0.00027508,
+   "wall_time_s": 23.272,
+   "first_wall_time_s": 2.941,
+   "error": null
+  },
+  {
+   "task_id": "abc304_d",
+   "solver": "workflow",
+   "status": "attempts_exhausted",
+   "bin": "medium",
+   "first_attempt_success": false,
+   "final_success": false,
+   "tests_passed": 41,
+   "tests_total": 45,
+   "failure_reason": "решение",
+   "fault_line_hit": true,
+   "suspicious": [
+    "large_patch:26"
+   ],
+   "usage": {
+    "input": 18637,
+    "output": 4993,
+    "reasoning": 0,
+    "cached_input": 9728,
+    "calls": 3,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 23630
+   },
+   "first_usage": {
+    "input": 2971,
+    "output": 4096,
+    "reasoning": 0,
+    "cached_input": 0,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 7067
+   },
+   "cost": 0.0037798228,
+   "first_cost": 0.00251615,
+   "wall_time_s": 73.557,
+   "first_wall_time_s": 51.4,
+   "error": null
+  },
+  {
+   "task_id": "abc311_b",
+   "solver": "workflow",
+   "status": "solved",
+   "bin": "easy",
+   "first_attempt_success": true,
+   "final_success": true,
+   "tests_passed": 25,
+   "tests_total": 25,
+   "failure_reason": null,
+   "fault_line_hit": true,
+   "suspicious": [],
+   "usage": {
+    "input": 1018,
+    "output": 194,
+    "reasoning": 0,
+    "cached_input": 0,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 1212
+   },
+   "first_usage": {
+    "input": 1018,
+    "output": 194,
+    "reasoning": 0,
+    "cached_input": 0,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 1212
+   },
+   "cost": 0.00023322000000000002,
+   "first_cost": 0.00023322000000000002,
+   "wall_time_s": 4.104,
+   "first_wall_time_s": 4.1,
+   "error": null
+  },
+  {
+   "task_id": "abc329_b",
+   "solver": "workflow",
+   "status": "solved",
+   "bin": "easy",
+   "first_attempt_success": false,
+   "final_success": true,
+   "tests_passed": 17,
+   "tests_total": 17,
+   "failure_reason": null,
+   "fault_line_hit": true,
+   "suspicious": [],
+   "usage": {
+    "input": 2041,
+    "output": 372,
+    "reasoning": 0,
+    "cached_input": 0,
+    "calls": 2,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 2413
+   },
+   "first_usage": {
+    "input": 722,
+    "output": 182,
+    "reasoning": 0,
+    "cached_input": 0,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 904
+   },
+   "cost": 0.00045877,
+   "first_cost": 0.0001885,
+   "wall_time_s": 4.638,
+   "first_wall_time_s": 1.857,
+   "error": null
+  },
+  {
+   "task_id": "abc337_d",
+   "solver": "workflow",
+   "status": "solved",
+   "bin": "medium",
+   "first_attempt_success": true,
+   "final_success": true,
+   "tests_passed": 67,
+   "tests_total": 67,
+   "failure_reason": null,
+   "fault_line_hit": true,
+   "suspicious": [],
+   "usage": {
+    "input": 1471,
+    "output": 341,
+    "reasoning": 0,
+    "cached_input": 148,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 1812
+   },
+   "first_usage": {
+    "input": 1471,
+    "output": 341,
+    "reasoning": 0,
+    "cached_input": 148,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 1812
+   },
+   "cost": 0.0003496948,
+   "first_cost": 0.0003496948,
+   "wall_time_s": 5.015,
+   "first_wall_time_s": 5.008,
+   "error": null
+  },
+  {
+   "task_id": "abc347_d",
+   "solver": "workflow",
+   "status": "solved",
+   "bin": "medium",
+   "first_attempt_success": false,
+   "final_success": true,
+   "tests_passed": 47,
+   "tests_total": 47,
+   "failure_reason": null,
+   "fault_line_hit": true,
+   "suspicious": [
+    "large_patch:21"
+   ],
+   "usage": {
+    "input": 14168,
+    "output": 5008,
+    "reasoning": 0,
+    "cached_input": 6784,
+    "calls": 3,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 19176
+   },
+   "first_usage": {
+    "input": 1098,
+    "output": 4096,
+    "reasoning": 0,
+    "cached_input": 0,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 5194
+   },
+   "cost": 0.003581718400000001,
+   "first_cost": 0.0022726599999999997,
+   "wall_time_s": 16.36,
+   "first_wall_time_s": 12.044,
+   "error": null
+  },
+  {
+   "task_id": "agc062_a",
+   "solver": "workflow",
+   "status": "attempts_exhausted",
+   "bin": "medium",
+   "first_attempt_success": false,
+   "final_success": false,
+   "tests_passed": 10,
+   "tests_total": 27,
+   "failure_reason": "решение",
+   "fault_line_hit": true,
+   "suspicious": [],
+   "usage": {
+    "input": 35680,
+    "output": 7439,
+    "reasoning": 0,
+    "cached_input": 14336,
+    "calls": 3,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 43119
+   },
+   "first_usage": {
+    "input": 9157,
+    "output": 402,
+    "reasoning": 0,
+    "cached_input": 0,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 9559
+   },
+   "cost": 0.006680273600000001,
+   "first_cost": 0.00139945,
+   "wall_time_s": 65.362,
+   "first_wall_time_s": 4.476,
+   "error": null
+  },
+  {
+   "task_id": "arc134_d",
+   "solver": "workflow",
+   "status": "attempts_exhausted",
+   "bin": "hard",
+   "first_attempt_success": false,
+   "final_success": false,
+   "tests_passed": 0,
+   "tests_total": 95,
+   "failure_reason": "решение",
+   "fault_line_hit": true,
+   "suspicious": [
+    "large_patch:56"
+   ],
+   "usage": {
+    "input": 41602,
+    "output": 12288,
+    "reasoning": 0,
+    "cached_input": 22642,
+    "calls": 3,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 53890
+   },
+   "first_usage": {
+    "input": 9272,
+    "output": 4096,
+    "reasoning": 0,
+    "cached_input": 148,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 13368
+   },
+   "cost": 0.0089134292,
+   "first_cost": 0.0033164248000000004,
+   "wall_time_s": 38.665,
+   "first_wall_time_s": 12.792,
+   "error": null
+  },
+  {
+   "task_id": "arc158_a",
+   "solver": "workflow",
+   "status": "solved",
+   "bin": "medium",
+   "first_attempt_success": false,
+   "final_success": true,
+   "tests_passed": 7,
+   "tests_total": 7,
+   "failure_reason": null,
+   "fault_line_hit": true,
+   "suspicious": [],
+   "usage": {
+    "input": 43746,
+    "output": 4537,
+    "reasoning": 0,
+    "cached_input": 21120,
+    "calls": 3,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 48283
+   },
+   "first_usage": {
+    "input": 6462,
+    "output": 485,
+    "reasoning": 0,
+    "cached_input": 256,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 6947
+   },
+   "cost": 0.0053555320000000005,
+   "first_cost": 0.0010596456,
+   "wall_time_s": 19.423,
+   "first_wall_time_s": 3.772,
+   "error": null
+  },
+  {
+   "task_id": "arc168_d",
+   "solver": "workflow",
+   "status": "attempts_exhausted",
+   "bin": "hard",
+   "first_attempt_success": false,
+   "final_success": false,
+   "tests_passed": 0,
+   "tests_total": 28,
+   "failure_reason": "решение",
+   "fault_line_hit": false,
+   "suspicious": [],
+   "usage": {
+    "input": 10236,
+    "output": 12288,
+    "reasoning": 12288,
+    "cached_input": 6656,
+    "calls": 3,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 22524
+   },
+   "first_usage": {
+    "input": 3340,
+    "output": 4096,
+    "reasoning": 4096,
+    "cached_input": 0,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 7436
+   },
+   "cost": 0.0068724656000000005,
+   "first_cost": 0.00256412,
+   "wall_time_s": 51.832,
+   "first_wall_time_s": 17.1,
+   "error": null
+  },
+  {
+   "task_id": "arc174_c",
+   "solver": "workflow",
+   "status": "attempts_exhausted",
+   "bin": "hard",
+   "first_attempt_success": false,
+   "final_success": false,
+   "tests_passed": 9,
+   "tests_total": 20,
+   "failure_reason": "решение",
+   "fault_line_hit": true,
+   "suspicious": [
+    "large_patch:34"
+   ],
+   "usage": {
+    "input": 9329,
+    "output": 2379,
+    "reasoning": 0,
+    "cached_input": 4352,
+    "calls": 3,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 11708
+   },
+   "first_usage": {
+    "input": 1601,
+    "output": 635,
+    "reasoning": 0,
+    "cached_input": 0,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 2236
+   },
+   "cost": 0.0018954052000000002,
+   "first_cost": 0.00053833,
+   "wall_time_s": 31.33,
+   "first_wall_time_s": 9.58,
+   "error": null
+  },
+  {
+   "task_id": "arc174_e",
+   "solver": "workflow",
+   "status": "attempts_exhausted",
+   "bin": "hard",
+   "first_attempt_success": false,
+   "final_success": false,
+   "tests_passed": 9,
+   "tests_total": 43,
+   "failure_reason": "решение",
+   "fault_line_hit": false,
+   "suspicious": [
+    "large_patch:12"
+   ],
+   "usage": {
+    "input": 50191,
+    "output": 11401,
+    "reasoning": 0,
+    "cached_input": 31488,
+    "calls": 3,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 61592
+   },
+   "first_usage": {
+    "input": 9363,
+    "output": 4096,
+    "reasoning": 0,
+    "cached_input": 0,
+    "calls": 1,
+    "failed_calls": 0,
+    "calls_without_usage": 0,
+    "failed_without_usage": 0,
+    "cache_hits": 0,
+    "total": 13459
+   },
+   "cost": 0.0084417788,
+   "first_cost": 0.00334711,
+   "wall_time_s": 82.737,
+   "first_wall_time_s": 21.448,
+   "error": null
+  }
+ ]
+}
